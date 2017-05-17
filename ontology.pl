@@ -2,10 +2,15 @@
 proposition(s(NP,VP))           -->   np(NP, const(S)), vp(VP, const(S)).
 vp(vp(V,N), const(S))           -->   rterm(V, const(S, C)), np(N, const(C)).
 vp(vp(V), const(S))             -->   rterm(V, const(S)).
+
 np(np(A, N), const(S))          -->   adj(A, const(S)), np(N, const(S)).
-np(np(N, PP), const(S1))        -->   n(N, const(S1)), pp(PP, const(S1)).
+np(np(N, mod(M)), const(S1))    -->   n(N, const(S1)), mod(M, const(S1)).
 np(np(N), const(S))             -->   n(N, const(S)).
-pp(pp(P,[R],N), const(S1))	-->   prep(P, const(S1, S2), R), np(N, const(S2)).
+
+mod([pp(P,[R],N)|T], const(S1)) -->   prep(P, const(S1, S2), R), np(N, const(S2)),
+				      mod(T, const(S1)).
+mod([pp(P,[R],N)], const(S1))   -->   prep(P, const(S1, S2), R), np(N, const(S2)).
+
 prep(P, const(S1, S2), R)       -->   [P], {lex(P, preposition)}, {aff(P, S1, S2, R)}.
 n(N, const(S))                  -->   [N], {lex(N, noun, S)}.
 adj(adj(A), const(S))           -->   [A], {lex(A, adj, const(S))}.
@@ -18,6 +23,7 @@ rterm(verb(V), const(S))        -->   [V], {lex(V, intrans, const(S))}.
 lex(disease, noun, process).
 lex(production, noun, process).
 lex(glucose, noun, material).
+lex(cell, noun, material).
 lex(pancreas, noun, material).
 lex(concentration, noun, quality).
 

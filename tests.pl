@@ -11,11 +11,10 @@
 :- [tests_results].  % Loading the expected results of tests.
 
 
-run() :-  % TODO improve efficiency by not running test twice.
-	findall(X,sentence(X,_),S), length(S,S1),
+run :- findall(X,sentence(X,_),S), length(S,S1),
 	write('--> Running '), write(S1), write(' tests:'), nl,
 	findall([X,is,R], test(X,R),L), length(L,T1), T is S1-T1,
-	display_(L), findall([X], test(X,true),K), length(K,J),
+	display_(L), findall([X], test(X,true) ,K), length(K,J),
 	write('--> '), write(T), write(' runtime errors.'), nl,
 	write('--> '), write(J), write('/'), write(S1),
 	write(' succeeded.'), nl, nl.
@@ -38,10 +37,9 @@ test_infer(X) :-
 	write('--> '), write(L2), write(' relation(s) found:'), nl,
 	display(N2), infer(N2,N3),length(N3,L3), nl,
 	write('--> '), write(L3), write(' relation(s) infered:'), nl,
-	display(N3).
-	% append(N2,N3,N4), allRank(N4,R), nl,
-	% write('--> '), write('Ranks of concepts: '), nl,
-	% display(R).
+	display(N3), append(N2,N3,N4), allRank(N4,R), nl,
+	write('--> '), write('Ranks of concepts: '), nl,
+	display(R).
 	% subsum_bis(N4,N5), length(N5,L5), nl,
 	% write('--> '), write(L5), write(' rel(s) subsumed:'), nl,
 	% display(N5), nl.
