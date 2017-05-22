@@ -30,19 +30,10 @@ vp(vp(V,N), const(S))           -->   rterm(V, const(S, C)), np(N, const(C)).
 vp(vp(V), const(S))             -->   rterm(V, const(S)).
 
 np(np1(N), const(S))		-->   n(N, const(S)).
-% np(np2(N, mod(M)), const(S))	-->   n(N, const(S)), post(M, const(S)).
-% np(np3(N, mod(M)), const(S))  -->   pre(M, const(S)), n(N, const(S)).
-np(np4(N, mod(M)), const(S))	-->   pre(Q, const(S)), n(N,const(S)),
+np(np2(N, mod(M)), const(S))	-->   pre(Q, const(S)), n(N,const(S)),
 				      post(P, const(S)), {append(Q,P,M)},
 				      {length(M,L)}, {L > 0}.
-
-% np(np5(N, mod(M)), const(S))	-->   cn(N1, _), ['s'],
-%				      n(N, const(S)), post(P, const(S)),
-%				      {M = [ger([affiliation], N1)|P]}.
-% np(np6(N, mod(M)), const(S))	-->   cn(N1, _), ['s'],
-%				      pre(Q, const(S)), n(N, const(S)),
-%				      {M = [ger([affiliation], N1)|Q]}.
-np(np7(N, mod(M)), const(S))	-->   cn(N1, _), ['s'],
+np(np3(N, mod(M)), const(S))	-->   cn(N1, _), ['s'],
 				      pre(Q, const(S)), n(N, const(S)), post(P, const(S)),
 				      {append([ger([affiliation], N1)|Q],P,M)}.
 

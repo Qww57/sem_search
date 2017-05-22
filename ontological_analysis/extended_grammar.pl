@@ -10,7 +10,7 @@
 % - adjectives: OK (pre)
 % - appositions: TODO (post)
 % (on verbs)
-% - prepositional verbs: TODO
+% - prepositional verbs: OK
 % - passive forms: TODO
 % - passivisation: TODO
 % - nominalisation: TODO
@@ -18,27 +18,27 @@
 % - adverbial prepositional phrase: TODO
 % - expressing conditions: TODO
 % (on propositions)
-% - conjonctions: TODO
-% - disjunctions: TODO
+% - conjonctions: OK
+% - disjunctions: OK
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % Constrainted Grammar.
-proposition(s(NP,VP)) -->   np(NP), vp(VP).
-vp(vp(V,N))           -->   rterm(V), np(N).
-vp(vp(V))             -->   rterm(V).
+p([p1(NP,VP)])	      -->   np(NP), vp(VP), {VP \= [_,_]}.
+p([p2(N1,VP),p(N2,VP)])-->   np(N1), [and], np(N2), vp(VP).
+p([p3(NP,V1),p(NP,V2)])-->   np(NP), vp(VP), {VP = [V1,V2]}.
+
+vp(vp0(V,N))           -->   rterm(V), np(N).
+vp(vp(V))	       -->   rterm(V).
+vp([vp(V,N1),vp(V,N2)])-->   rterm(V), np(N1), [and], np(N2).
+vp(vp(V,N))	       -->   rterm(V), np(N1), [or], np(N2),
+			    {np(N1,S1,[]), np(N2,S2,[]), isa(S1,N), isa(S2,N)},
+			    {print_common(N,S1,S2)}.
 
 np(np0(N))	      -->   n(N).
-% np(np(N, mod(M)))     -->   n(N), post(M).
-% np(np(N, mod(M)))     -->   pre(M), n(N).
-np(np1(N, mod(M)))     -->   pre(Q), n(N), post(P), {append(Q,P,M)}.
-
-% np(np(N, mod(M)))     -->   cn(N1), ['s'], n(N), post(P),
-%			    {M = [ger([affiliation], N1)|P]}.
-% np(np(N, mod(M)))     -->   cn(N1), ['s'], pre(Q), n(N),
-%			    {M = [ger([affiliation], N1)|Q]}.
-np(np2(N, mod(M)))     -->   cn(N1), ['s'], pre(Q), n(N), post(P),
+np(np1(N, mod(M)))    -->   pre(Q), n(N), post(P), {append(Q,P,M)}.
+np(np2(N, mod(M)))    -->   cn(N1), ['s'], pre(Q), n(N), post(P),
 			    {append([ger([affiliation], N1)|Q],P,M)}.
 
 % To allow compound nouns in possessives.
@@ -66,14 +66,25 @@ prep(P)           -->   [P], {lex(P, preposition)}.
 n(n(N))	          -->   [N], {lex(N, noun)}.
 adj(A)	          -->   [A], {lex(A, adj)}.
 
+pp([pp(P,N)])     -->	prep(P), np(N).
+pp([pp(P,N)|T])   -->   prep(P), np(N), align(_), pp(T).
+pp([pp(P,N)|T])   -->   prep(P), np(N), pp(T).
+
+relation(rel(V))  -->   rterm(V).
+relation(rel(V, mod(T))) --> rterm(V), pp(T).
 rterm(verb(isa))  -->   [isa].
-rterm(verb(V))    -->   [V], {lex(V, trans)}.
-rterm(verb(V))    -->   [V], {lex(V, intrans)}.
+rterm(verb(V))    -->   [V], {lex(V, trans, _)}.
+rterm(verb(V))    -->   [V], {lex(V, intrans, _)}.
+rterm(verb(V,P))  -->   [V], {lex(V, trans, _)}, prep(P).
+rterm(rpas(V,P))  -->   [is],[V], {lex(_, trans, V)}, prep(P).
 
 align(X)          -->   [X], {X = and}.
 align(X)	  -->   [X], {X = ','}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+print_common(N,S1,S2) :- write('Common supremum found for '), write(S1), write(' and '),
+			 write(S2), write(' with '), write(N).
 
 % Lexicon: prepositions
 lex(in, preposition).
@@ -89,26 +100,27 @@ lex(glucogenesis, noun).
 lex(conversion, noun).
 lex(glucose, noun).
 lex(insulin, noun).
+lex(alphacell, noun).
 lex(betacell, noun).
+lex(cell, noun).
 lex(pancreas, noun).
 lex(concentration, noun).
 lex(behaviour, noun).
-
-% Lexicon: verbs
-lex(observe, trans).
-lex(produce, trans).
-lex(produce, trans).
-
-lex(aim, trans). % Entities with function
-lex(aim, trans). % Entities with function
-lex(is, trans).
-lex(smile, intrans).
 
 % Lexicon: adjectives
 lex(red, adj).
 lex(young, adj).
 lex(synchronous, adj).
 
+% Lexicon: verbs
+lex(smile, intrans).
+lex(observe, trans, observed).
+lex(produce, trans, produced).
+lex(reside, trans, hosted).
+
+% ISA relations
+isa([betacell], [cell]).
+isa([alphacell], [cell]).
 
 
 
