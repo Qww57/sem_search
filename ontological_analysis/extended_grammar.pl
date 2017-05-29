@@ -2,99 +2,108 @@
 %
 % Extensions of Natural Logics:
 % (on noun phrases)
-% - fully recursive structures: OK
 % - relative clauses: OK (post)
 % - prepositional phrases: OK (post)
 % - compound nouns: OK (pre)
 % - possessives: OK (pre)
 % - adjectives: OK (pre)
 % - appositions: OK (post)
+% - fully recursive structures: OK (order and composition)
 % (on verbs)
 % - prepositional verbs: OK
 % - passive forms: OK
 % - passivisation: NOT IN PARSER
 % - nominalisation: NOT IN PARSER
-% - adverbs: TODO
-% - adverbial prepositional phrase: TODO
-% - expressing conditions: TODO
+% - adverbs: OK
+% - adverbial prepositional phrase: OK
+% - expressing conditions: NOT CONSIDERED
 % (on propositions)
-% - conjonctions - respective: OK
+% - conjonctions - respective: OK -> to remove
 % - conjunctions - distributive: OK
 % - disjunctions - distributive: OK
-%
-% Improvements:
-% - refactoring relation terms.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % Propositions with plural formation.
-p([p(NP,VP)])	       -->   np(NP), vp(VP), {VP\=[_,_]}.
-p([p(N1,VP),p(N2,VP)]) -->   np(N1), [and], np(N2), vp(VP), {VP\=[_,_]}.
-p([p(NP,V1),p(NP,V2)]) -->   np(NP), vp(VP), {VP=[V1,V2]}.
-p([p(N1,V1),p(N2,V2)]) -->   np(N1), [and], np(N2), vp(VP), {VP=[V1,V2]}.
+p([p(NP,VP)])	        -->   np(NP), vp(VP), {VP\=[_,_]}.
+p([p(N1,VP),p(N2,VP)])  -->   np(N1), [and], np(N2), vp(VP), {VP\=[_,_]}.
+p([p(NP,V1),p(NP,V2)])  -->   np(NP), vp(VP), {VP=[V1,V2]}.
+p([p(N1,V1),p(N1,V2),
+   p(N2,V1),p(N2,V2)])  -->   np(N1), [and], np(N2), vp(VP), {VP=[V1,V2]}.
 
-vp(vp(V))	       -->   rterm(V,_,_).
-vp(vp(V,A))            -->   rterm(V,_, copular), adj(A, predi).
-vp(vp(V,N))            -->   rterm(V,trans,_), np(N).
-vp([vp(V,N1),vp(V,N2)])-->   rterm(V,trans,_), np(N1), [and], np(N2).
-vp(vp(V,N))	       -->   rterm(V,trans,_), np(N1), [or], np(N2), !,
-			     {np(N1,S1,[]), np(N2,S2,[]), isa(S1,N), isa(S2,N)},
+vp(vp(V,pred(A)))	-->   rterm(V,_,copular), adjs(A).
+vp(vp(V,N))             -->   rterm(V,trans,_), np(N).
+vp([vp(V,N1),vp(V,N2)]) -->   rterm(V,trans,_), np(N1), [and], np(N2).
+vp(vp(V,N))	        -->   rterm(V,trans,_), np(N1), [or], np(N2), !,%TO FIX FOR PLURAL
+			     {np(N1,S1,[]), np(N2,S2,[]), !, isa(S1,N), isa(S2,N)},
 			     {print_common(N,S1,S2)}.
 
-% Concept nouns accepting modifiers.
-np(np(N))	       -->   n(N). % Kept for computational reasons.
-np(np(N, mod(M)))      -->   pre(Q), n(N), post(P), {append(Q,P,S), sort(S,M)}.
+% Adjectives as predicate.
+adjs([A])               -->  adj(A,predi). % Always an adjective at least.
+adjs([A|T])		-->  adj(A,predi), adjs(T).
 
-% To allow compound nouns in possessives.
-cn(np(N))              -->   n(N).
-cn(np(N, mod(M)))      -->   pre1(M), n(N).
+% Concept nouns accepting modifiers.
+np(np(N,mod([]),ext([]))) -->   n(N). % Kept for computational reasons.
+np(np(N,mod(M),ext(E)))   -->   pre(Q), n(N), post(P,E), {append(Q,P,S), sort(S,M)}.
 
 % Defining pre-modifiers.
 pre(T)             -->  pre1(T). % Case without possessive.
 pre([G|T])	   -->  cn(N1), ['s'], pre1(T), {G = ger([affiliation],N1)}.
-
-pre1([adj(A)])     -->  adj(A,_).
-pre1([cn(N1)])     -->  n(N1).
 pre1([adj(A)|T])   -->  adj(A,_), pre1(T).
-pre1([cn(N1)|T])   -->  n(N1), pre1(T).
-pre1([])           -->  {true}.
+pre1(T)            -->  pre2(T).
+pre2([cn(N1)])     -->  n(N1). % Not needed, for efficiency reasons.
+pre2([cn(N1)|T])   -->  n(N1), pre2(T).
+pre2([])           -->  {true}.
+
+% To allow compound nouns in possessives.
+cn(np(N))          -->   n(N).
+cn(np(N, mod(M)))  -->   pre1(M), n(N).
 
 % Defining post-modifiers.
-post(T)            -->   post1(T). % Case without apposition.
-post([A|T])	   -->   app(A), post1(T).
-
+post(M,[])         -->   post1(M). % Case without apposition.
+post(M,[A])	   -->   app(A), post1(M).
 post1([pp(P,N)])   -->   prep(P), np(N).
-post1([rc(V,N)])   -->   [that], rterm(V,trans,_), np(N).
-post1([pp(P,N)|T]) -->   prep(P), np(N), align(_), post1(T).
-post1([pp(P,N)|T]) -->   prep(P), np(N), post1(T).
-post1([rc(V,N)|T]) -->   [that], rterm(V,trans,_), np(N), align(_), post1(T).
-post1([rc(V,N)|T]) -->   [that], rterm(V,trans,_), np(N), post1(T).
+post1([rc(V,N)])   -->   [that], rterm(V,trans,_), np(N). % ADD INTRANS
+post1([pp(P,N)|M]) -->   prep(P), np(N), align(_), post1(M).
+post1([pp(P,N)|M]) -->   prep(P), np(N), post1(M).
+post1([rc(V,N)|M]) -->   [that], rterm(V,trans,_), np(N), align(_), post1(M).
+post1([rc(V,N)|M]) -->   [that], rterm(V,trans,_), np(N), post1(M).
 post1([])	   -->   {true}.
 
 % Defining appositions.
-app(ap(N))   --> [','], [a], np(N), [','].
-app(ap(N))   --> [','], [an], np(N), [','].
+app(ap(N))         --> [','], [a], np(N), [','].
+app(ap(N))         --> [','], [an], np(N), [','].
 
 % Defining parenthetical clauses.
-app(pc(V))   --> [','], [which], rterm(V,_,_),[','].
-app(pc(V,N)) --> [','], [which], rterm(V,trans,_), np(N), [','].
+app(pc(V))         --> [','], [which], rterm(V,_,_),[','].
+app(pc(V,N))       --> [','], [which], rterm(V,trans,_), np(N), [','].
 
-% Adverbial PPs - to do
-pp([pp(P,N)])     -->	prep(P), np(N).
-pp([pp(P,N)|T])   -->   prep(P), np(N), align(_), pp(T).
-pp([pp(P,N)|T])   -->   prep(P), np(N), pp(T).
+% Relation terms
+rterm(verb(V,mod(M)),X,T) -->   rterm1(V,X,T), advs(P), pps(Q), {append(P,Q,M)}.
+rterm(verb(V),X,T)        -->	[is], [V], {lex(_, X, T, V)}, [by]. % Passive trans.
+rterm(verb(V,mod(M)),X,T) -->	[is], [V], {lex(_, X, T, V)}, pps(M), [by].
+
+rterm1(active(isa),X,T)   -->   [isa], {T = copular, X = trans}.
+rterm1(active(V),X,T)	  -->   [V], {lex(V, X, T)}. % Active intransitive.
+rterm1(active(V),X,T)     -->   [V], {lex(V, X, T, _)}. % Active transitive.
+rterm1(active(V,P),X,T)   -->   [V], {lex(V, X, T, _)}, prep(P). % Act intrans with prep.
+
+% Adverbial PPs
+pps([pp(P,N)])      -->	  prep(P), np(N).
+pps([pp(P,N)|T])    -->   prep(P), np(N), align(_), pps(T).
+pps([pp(P,N)|T])    -->   prep(P), np(N), pps(T).
+pps([])		    -->   {true}.
+
+% Adverbs
+advs([A|T])	--> adv(A), advs(T).
+advs([])        --> {true}. % Potentially no adverb
 
 % Access to lexicon entries
-prep(P)           -->   [P], {lex(P, preposition)}.
-n(n(N))	          -->   [N], {lex(N, noun)}.
-adj(A,T)          -->   [A], {lex(A, adj, _, T)}.
-
-rterm(verb(isa), X, T)	-->   [isa], {T = copular, X = trans}.
-rterm(verb(V), X, T)	-->   [V], {lex(V, X, T)}. % Active intransitive.
-rterm(verb(V), X, T)    -->   [V], {lex(V, X, T, _)}. % Active transitive.
-rterm(verb(V,P), X, T)	-->   [V], {lex(V, X, T, _)}, prep(P). % Active intrans with prep.
-rterm(rpas(V,P), X, T)  -->   [is],[V], {lex(_, X, T, V)}, prep(P). % Passive transitive.
+prep(P)            -->   [P], {lex(P, preposition)}.
+n(n(N))	           -->   [N], {lex(N, noun)}.
+adj(A,T)           -->   [A], {lex(A, adj, _, T)}.
+adv(A)		   -->	 [A], {lex(A, adv)}.
 
 align(X)          -->   [X], {X = and}.
 align(X)	  -->   [X], {X = ','}.
@@ -106,6 +115,12 @@ align(X)	  -->   [X], {X = ','}.
 print_common(N,S1,S2) :- write('Common supremum found for '), write(S1), write(' and '),
 			 write(S2), write(' with '), write(N).
 
+% Nominalization approach:
+% - subject of active as Agent (by) and Object as patient (of).
+% - subject of passive as patient (of) and Object as agent (by).
+% - keep adverbial PP as nominal PP.
+% - turn adverbs to adjectives
+% nominalization(P,NP) :- p(X,P,[]), write('TODO').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
