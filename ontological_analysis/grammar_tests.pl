@@ -32,10 +32,14 @@ test(post_rc_1) :- np(_,[pancreas,that,produce,glucose],[]). % Normal use of RC.
 test(post_rc_2, fail) :- np(_,[pancreas,that,glucose],[]). % Wrong use of RC.
 test(pre_rc_3) :- np(_,[pancreas,that,produce,glucose,and,that,produce,insulin],[]).
 
-% Use of post-modifiers: Appositions.
+% Use of post-modifiers: PC.
 test(post_pc_1) :- np(_,[pancreas,',',which,produce,glucose,','],[]).
-test(post_ap_2) :- np(_,[pancreas,',',an,insulin,','],[]).
-test(post_ap_3) :- np(_,[pancreas,',',a,insulin,','],[]).
+test(post_pc_2, fail) :- np(_,[pancreas,',',which,produce,','],[]).
+
+% Use of post-modifiers: Appositions.
+test(post_ap_1) :- np(_,[pancreas,',',an,insulin,','],[]).
+test(post_ap_2) :- np(_,[pancreas,',',a,insulin,','],[]).
+test(post_ap_3, fail) :- np(_,[pancreas,',',a,insulin],[]).
 
 % Syntax order of modifiers:
 test(mod1) :- np(_,[pancreas,s,synchronous,glucose,production,of,glucose,and,
@@ -47,16 +51,22 @@ test(mod2, fail) :- np(_,[pancreas,s,glucose,synchronous,production,of,glucose],
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Respect of transitivity in the main proposition.
-test(trans_1, fail) :- p([_],[doctor,smile],[]). % Normal use of intransitive verb.
-test(trans_2, fail) :- p([_],[doctor,observe],[]). % Use of trans verb without object.
+test(trans_1, fail) :- p([_],[doctor,smile],[]). % No use of intransitive verb.
+test(trans_2, fail) :- p([_],[doctor,observe],[]). % No use of trans verb without object.
 test(trans_3) :- p([_],[doctor,observe,pancreas],[]). % Normal use of transitive verb.
-test(trans_4, fail) :- p([_], [doctor,smile,pancreas],[]). % Use of intrans as transitive.
+test(trans_4, fail) :- p([_], [doctor,smile,pancreas],[]). % No use of intrans as trans.
 
 % Respect of transitivity in RC.
 test(trans_rc_1, fail) :- np(_,[pancreas,that,smile],[]).
 test(trans_rc_2, fail) :- np(_,[pancreas,that,produce],[]).
 test(trans_rc_3) :- np(_,[pancreas,that,produce,insulin],[]).
 test(trans_rc_4, fail):- np(_,[pancreas,that,smile,insulin],[]).
+
+% Ability to use passive forms.
+test(pass_1) :- p([_],[insulin,is,produced,by,pancreas],[]).
+test(pass_2) :- p([_],[insulin,is,produced,in,pancreas,by,pancreas],[]).
+test(pass_3, fail) :- p([_],[insulin,is,produced],[]).
+test(pass_4, fail) :- p([_],[insulin,is,produced,in,pancreas],[]).
 
 % Respect of predicativity for adjectives.
 test(adj_pred_1) :- p([_],[doctor,is,young],[]).
@@ -65,6 +75,14 @@ test(adj_pred_3, fail) :- p([_],[doctor,is,former],[]). % Non predicate adjectiv
 test(adj_pred_4, fail) :- p([_],[doctor,produce,former],[]). % Non copular verb.
 test(adj_pred_5, fail) :- p([_],[doctor,produce,young],[]). % Non copular verb.
 
+% Respect of rules regarding adverbs.
+test(adv_1) :- p([_],[betacell,produce,in,pancreas,insulin],[]).
+test(adv_2) :- p([_],[betacell,produce,synchronously,insulin],[]).
+test(adv_3) :- p([_],[betacell,produce,synchronously,in,pancreas,insulin],[]).
+test(adv_4, fail) :- % Wrong order of adverbs and adverbial PPs
+	p([_],[betacell,produce,in,pancreas,synchronously,insulin],[]).
+test(adv_5, fail) :- % Wrong position of the adverb.
+	p([_],[betacell,synchronously,produce,insulin],[]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%     Respect of syntactic rules related to proposition extensions.
