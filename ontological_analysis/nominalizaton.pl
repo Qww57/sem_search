@@ -1,5 +1,6 @@
-:- ensure_loaded(extended_grammar).
-:- ensure_loaded(reverse_grammar).
+% ensure_loaded(extended_grammar).
+:- [extended_grammar].
+:- [reverse_grammar].
 
 % One approach dedicated per way, in order to help the search.
 % Then, second condition to help if poorly used. Assumed that parser is
@@ -25,10 +26,10 @@
 % mod(M)), nomi(N,V),  NP = np(n(N), mod(M), ext([])), np(NP, Noun, []).
 % nominalize0(Rel, Noun) :- verbalize0(Rel, Noun), !.
 
-nominalize(Rel, Noun) :- Rel = [V|T], nomi(N,V), !, Noun = [N|T].
-nominalize(Rel, Noun) :- Rel = [is, Vpp| T], last(T, by), lex(V,_,_,Vpp), nomi(N,V), !,
+nomi_rel(Rel, Noun) :- Rel = [V|T], nomi(N,V), !, Noun = [N|T].
+nomi_rel(Rel, Noun) :- Rel = [is, Vpp| T], last(T, by), lex(V,_,_,Vpp), nomi(N,V), !,
 	                 remove_last(T,T1), Noun = [N|T1].
-nominalize(Rel, Noun) :- !, nominalize(Noun, Rel).
+nomi_rel(Rel, Noun) :- !, nomi_rel(Noun, Rel).
 
 remove_last([_],[]).
 remove_last([H|T1], [H|T2]) :- remove_last(T1,T2).
@@ -47,7 +48,7 @@ remove_last([H|T1], [H|T2]) :- remove_last(T1,T2).
 %                       ext([])),
 % Z = [production, of, glucose, by, cell, in, pancreas].
 %
-nominalize_s(S, Tr, NewS) :- p(P,S,[]), !, write(P), P = [p(NP1, VP)], !,
+nomi_prop(S, Tr, NewS) :- p(P,S,[]), !, write(P), P = [p(NP1, VP)], !,
 	VP = vp(verb(active(V), mod(M)),NP2), nomi(N0,V),
 	NewM = [pp(of,NP2),pp(by,NP1)|M], Tr = np(n(N0), mod(NewM), ext([])),
 	reverse_np(Tr, NewS).

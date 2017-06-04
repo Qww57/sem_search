@@ -62,8 +62,8 @@ pre2([cn(N1)])     -->  n(N1). % Not needed, for efficiency reasons.
 pre2([cn(N1)|T])   -->  n(N1), pre2(T).
 
 % To allow compound nouns in possessives.
-cn(np(N))          -->   n(N).
-cn(np(N, mod(M)))  -->   pre1(M), n(N).
+cn(np(N,mod([]),ext([]))) -->   n(N).
+cn(np(N,mod(M),ext([])))  -->   pre1(M), n(N).
 
 % Defining post-modifiers.
 post(M,[])         -->   post1(M). % Case without apposition.
@@ -88,8 +88,9 @@ app(pc(V,N))       --> [','], [which], rterm(V,trans,_), np(N), [','].
 
 % Relation terms
 rterm(verb(V,mod(M)),X,T) -->   rterm1(V,X,T), advs(P), pps(Q), {append(P,Q,M)}.
-rterm(verb(V),X,T)        -->	[is], [V], {lex(_, X, T, V)}, [by]. % Passive trans.
-rterm(verb(V,mod(M)),X,T) -->	[is], [V], {lex(_, X, T, V)}, pps(M), [by].
+
+rterm(verb(passive(V),mod([])),X,T) -->	[is,V], {lex(_,X,T,V)}, [by].
+rterm(verb(passive(V),mod(M)),X,T)  -->	[is,V], {lex(_,X,T,V)}, pps(M), [by].
 
 rterm1(active(isa),X,T)   -->   [isa], {T = copular, X = trans}.
 % rterm1(active(V),X,T) --> [V], {lex(V, X, T)}. % Active intransitive.
