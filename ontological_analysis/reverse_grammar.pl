@@ -24,6 +24,10 @@ reverse_post([pp(P,NP)|T1],T2) :- reverse_np(NP,S), reverse_post(T1,Q), append([
 reverse_post([rc(R,NP)|T1],T2) :- R = verb(active(V), mod(M)), reverse_np(NP,S),
 	reverse_post(M, Vmod), reverse_post(T1,Q), T0 = [that,V|Vmod], append(T0, S, K),
 	append(K,Q,T2).
+reverse_post([rc(R,NP)|T1],T) :- R = verb(passive(V), mod(M)),
+	reverse_np(NP,S), % Reverse NP in the RC.
+	reverse_post(M, Vmod), reverse_post(T1,Q), !, % Reverse recursively the modifiers
+	T0 = [that,is,V|Vmod], append(T0,[by],T2), append(T2, S, K), append(K,Q,T).
 
 reverse_ext([],[]).
 reverse_ext([Ext],SExt) :- app(Ext, SExt, []).
@@ -37,3 +41,5 @@ is_post(M) :- M = pp(_,_).
 is_pre(M) :- M = adj(_).
 is_pre(M) :- M = cn(_).
 is_pre(M) :- M = ger(_,_).
+
+reverse_rterm(_, [hello]).

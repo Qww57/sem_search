@@ -1,6 +1,9 @@
 :- ensure_loaded(extended_grammar).
+:- ensure_loaded(basic_lexicon).
 
 :- begin_tests(grammar).
+
+% TWO TESTS HAVE PROBLEMS.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%    Respect of construction rules for pre and post-modifiers.
@@ -30,7 +33,6 @@ test(post_pp_4) :- np(_,[production,of,glucose,in,pancreas],[]).
 % Use of post-modifiers: RC.
 test(post_rc_1) :- np(_,[pancreas,that,produce,glucose],[]). % Normal use of RC.
 test(post_rc_2, fail) :- np(_,[pancreas,that,glucose],[]). % Wrong use of RC.
-test(pre_rc_3) :- np(_,[pancreas,that,produce,glucose,and,that,produce,insulin],[]).
 
 % Use of post-modifiers: PC.
 test(post_pc_1) :- np(_,[pancreas,',',which,produce,glucose,','],[]).
@@ -69,9 +71,9 @@ test(pass_3, fail) :- p([_],[insulin,is,produced],[]).
 test(pass_4, fail) :- p([_],[insulin,is,produced,in,pancreas],[]).
 
 % Respect of predicativity for adjectives.
-test(adj_pred_1) :- p([_],[doctor,is,young],[]).
-test(adj_pred_2) :- p([_],[doctor,is,young,red],[]).
-test(adj_pred_3, fail) :- p([_],[doctor,is,former],[]). % Non predicate adjective.
+test(adj_pred_1) :- p([_],[doctor,isa,young],[]).
+test(adj_pred_2) :- p([_],[doctor,isa,young,red],[]).
+test(adj_pred_3, fail) :- p([_],[doctor,isa,former],[]). % Non predicate adjective.
 test(adj_pred_4, fail) :- p([_],[doctor,produce,former],[]). % Non copular verb.
 test(adj_pred_5, fail) :- p([_],[doctor,produce,young],[]). % Non copular verb.
 
@@ -98,6 +100,14 @@ test(plural_3, Z==4) :- p(X,[alphacell,and,betacell,produce,insulin,and,glucose]
 test(plural_4, fail) :- p(_,[alphacell,or,betacell,produce,insulin],[]). % Not handled.
 test(plural_5, fail) :- p(_,[alphacell,produce,insulin,or,glucose],[]). % No supremum.
 test(plural_6) :- p([_],[insulin,is,produced,by,alphacell,or,betacell],[]). % Supremum.
+
+
+test(post_rc_3) :- np(_,[pancreas,that,produce,glucose,and,that,produce,insulin],[]).
+
+
+%%%%%%%%% POTENTIALLY FAILING SO AT THE END.
+
+
 
 :- end_tests(grammar).
 
