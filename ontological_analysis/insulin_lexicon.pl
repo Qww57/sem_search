@@ -42,12 +42,13 @@ lex(triglyceride,  noun).
 
 
 % Lexicon: verbs
-lex(isa,        trans, copular, _).
+lex(isa,        trans, copular, is_some).
 
 lex(affect,     trans, event,   affected).
 lex(absorb,     trans, event,   absorbed).
 lex(convert,    trans, event,   converted).
 lex(excrete,    trans, event,   excreted).
+lex(inhibit,    trans, event,   inhibited).
 lex(produce,    trans, event,   produced).
 lex(promote,    trans, event,	promoted).
 lex(regulate,   trans, event,   regulated).
@@ -55,7 +56,7 @@ lex(synthesize, trans, event,   synthesized).
 
 nomi(absorption, absorb).
 nomi(excretion,  excrete).
-nomi(convert,    conversion).
+nomi(conversion, convert).
 nomi(impact,     affect).
 nomi(production, produce).
 nomi(promotion,  promote).

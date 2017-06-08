@@ -23,10 +23,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TEST: np(N,[behaviour,that,produce,in,pancreas,insulin],[]). FALSE
-% TEST: np(N,[insulin,that,is,produced,by,cell],[]). FALSE
-% TEST: isa RC being refused.
-% PROBLEM: RC followed by PP --> infinite loops!!!
+% Passive RC without agent refused.
 
 :- [reverse_grammar].
 
@@ -39,7 +36,7 @@ p([p(N1,V1),p(N1,V2),
 
 vp(vp(V,pred(A)))	-->   rterm(V,_,copular), adjs(A).
 vp(vp(V,N))             -->   rterm(V,trans,_), np(N).
-vp(verb(passive(V),mod(M))) --> [is,V], {lex(_,trans, _,V)}, pps(M).
+vp(vp(verb(passive(V),mod(M)))) --> [is,V], {lex(_,trans, _,V)}, pps(M).
 vp([vp(V,N1),vp(V,N2)]) -->   rterm(V,trans,_), np(N1), [and], np(N2).
 vp(vp(V,N))	        -->   rterm(V,trans,_), np(N1), [or], np(N2), !,
 			      {reverse_np(N1,S1),reverse_np(N2,S2), supremum(S1,S2,N)}.
@@ -74,10 +71,10 @@ post1([rc(V,NP)]) --> [that], rterm(V,trans,_), np(NP),
                         {reverse_rterm(V,Vs), Vs \= [isa]}.				  post1([pp(P,NP)]) -->  prep(P), np(NP).
 
 post1([rc(V,NP)|M]) --> [that], rterm(V,trans,_), np(NP), align(_), post1(M),
-                        {reverse_rterm(V,Vs), Vs \= [isa], write(0)}.
+                        {reverse_rterm(V,Vs), Vs \= [isa]}.
 
 post1([rc(V,NP)|M]) -->	[that], rterm(V,trans,_), np(NP), post1(M),
-			{reverse_rterm(V,Vs), Vs \= [isa], write(1)}.
+			{reverse_rterm(V,Vs), Vs \= [isa]}.
 
 post1([pp(P,NP)|M]) -->  prep(P), np(NP), align(_), post1(M).
 post1([pp(P,NP)|M]) -->  prep(P), np(NP), post1(M).

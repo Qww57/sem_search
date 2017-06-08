@@ -33,6 +33,13 @@ test(post_pp_4) :- np(_,[production,of,glucose,in,pancreas],[]).
 % Use of post-modifiers: RC.
 test(post_rc_1) :- np(_,[pancreas,that,produce,glucose],[]). % Normal use of RC.
 test(post_rc_2, fail) :- np(_,[pancreas,that,glucose],[]). % Wrong use of RC.
+test(post_rc_3, fail) :- np(_,[cell,that,isa,betacell],[]).
+test(post_rc_4, fail) :- np(_,[cell,that,isa,in,pancreas,betacell],[]).
+test(post_rc_5) :- np(_,[cell,that,produce,in,pancreas,glucose],[]).
+test(post_rc_6) :- np(_,[insulin,that,is,produced,by,betacell],[]).
+test(post_rc_7) :- np(_,[insulin,that,is,produced,in,pancreas,by,betacell],[]).
+test(post_rc_8) :- np(_,[insulin,that,is,produced],[]).
+test(post_rc_9) :- np(_,[insulin,that,is,produced,in,pancreas],[]).
 
 % Use of post-modifiers: PC.
 test(post_pc_1) :- np(_,[pancreas,',',which,produce,glucose,','],[]).
@@ -64,11 +71,11 @@ test(trans_rc_2, fail) :- np(_,[pancreas,that,produce],[]).
 test(trans_rc_3) :- np(_,[pancreas,that,produce,insulin],[]).
 test(trans_rc_4, fail):- np(_,[pancreas,that,smile,insulin],[]).
 
-% Ability to use passive forms.
+% Ability to use passive forms, even without object (agent).
 test(pass_1) :- p([_],[insulin,is,produced,by,pancreas],[]).
 test(pass_2) :- p([_],[insulin,is,produced,in,pancreas,by,pancreas],[]).
-test(pass_3, fail) :- p([_],[insulin,is,produced],[]).
-test(pass_4, fail) :- p([_],[insulin,is,produced,in,pancreas],[]).
+test(pass_3) :- p([_],[insulin,is,produced],[]).
+test(pass_4) :- p([_],[insulin,is,produced,in,pancreas],[]).
 
 % Respect of predicativity for adjectives.
 test(adj_pred_1) :- p([_],[doctor,isa,young],[]).

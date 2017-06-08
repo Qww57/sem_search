@@ -1,5 +1,6 @@
 :- discontiguous lex/2.
 :- discontiguous lex/4.
+:- discontiguous nomi/2.
 
 % Lexicon: prepositions
 lex(in, preposition).

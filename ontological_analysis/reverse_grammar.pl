@@ -42,4 +42,7 @@ is_pre(M) :- M = adj(_).
 is_pre(M) :- M = cn(_).
 is_pre(M) :- M = ger(_,_).
 
-reverse_rterm(_, [hello]).
+% Actually check if the relation is [isa].
+reverse_rterm(verb(active(V),mod(_)), [V]).
+reverse_rterm(verb(passive(V),mod(_)), [V]).
+
