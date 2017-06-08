@@ -1,6 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Insulin_lexicon.pl:
+%
+%	       Dedicated lexicon for the first paragraph of
+%		   the wikipedia article on insulin.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 :- discontiguous lex/2.
 :- discontiguous lex/4.
 :- discontiguous nomi/2.
+
 
 % Lexicon: prepositions
 lex(in,   preposition).
@@ -9,6 +21,7 @@ lex(by,   preposition).
 lex(into, preposition).
 lex(from, preposition).
 lex(at,   preposition).
+
 
 % Lexicon: nouns
 lex(absorption,    noun).
@@ -63,6 +76,7 @@ nomi(promotion,  promote).
 nomi(regulation, regulate).
 nomi(synthesis,	 synthesize).
 
+
 % Lexicon: adjectives:
 lex(anabolic,    adj, inter, predi).
 lex(circulating, adj, inter, predi).
@@ -75,8 +89,10 @@ lex(low,         adj, subs,  predi).
 lex(small,       adj, subs,  predi).
 lex(widespread,  adj, subs,  predi).
 
+
 % Lexicon: adverbs
 lex(strongly, adv).
+
 
 % ISA relations
 isa([betacell], [cell]).

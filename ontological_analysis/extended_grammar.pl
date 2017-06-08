@@ -1,4 +1,16 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Extended_grammar.pl:
+%
+%	       Extanded grammar for Natural Logics, without
+%	                 onthological analysis.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+:- [reverse_grammar].          % Function to reverse parse trees.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Extensions of Natural Logics:
 % (on noun phrases)
@@ -15,17 +27,15 @@
 % - adverbs: OK
 % - adverbial prepositional phrase: OK
 % - expressing conditions: NOT CONSIDERED
-% - passivisation: TODO - Structure for later passivation.
-% - nominalisation: NOT IN PARSER
 % (on propositions)
 % - conjunctions - distributive: OK
 % - disjunctions - distributive: OK
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%
 % Passive RC without agent refused.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- [reverse_grammar].
 
 % Propositions with plural formation.
 p([p(NP,VP)])	        -->   np(NP), vp(VP), {VP\=[_,_]}.
@@ -124,6 +134,12 @@ print_common(N,S1,S2) :- nl, write('Common supremum found for '), write(S1),
 	                 write(' and '), write(S2), write(' with '), write(N).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
 
 
 

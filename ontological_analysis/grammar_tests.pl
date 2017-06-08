@@ -1,13 +1,20 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Grammar_tests.pl:
+%
+%	                   Unit tests for extended grammar.
+%		   
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 :- ensure_loaded(extended_grammar).
 :- ensure_loaded(basic_lexicon).
 
 :- begin_tests(grammar).
 
-% TWO TESTS HAVE PROBLEMS.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%    Respect of construction rules for pre and post-modifiers.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Use of pre-modifiers: adjectives.
 test(pre_adj_1) :- np(_,[synchronous,production],[]). % Use of an adjectives.
@@ -40,6 +47,7 @@ test(post_rc_6) :- np(_,[insulin,that,is,produced,by,betacell],[]).
 test(post_rc_7) :- np(_,[insulin,that,is,produced,in,pancreas,by,betacell],[]).
 test(post_rc_8) :- np(_,[insulin,that,is,produced],[]).
 test(post_rc_9) :- np(_,[insulin,that,is,produced,in,pancreas],[]).
+test(post_rc_10) :- np(_,[pancreas,that,produce,glucose,and,that,produce,insulin],[]).
 
 % Use of post-modifiers: PC.
 test(post_pc_1) :- np(_,[pancreas,',',which,produce,glucose,','],[]).
@@ -55,9 +63,9 @@ test(mod1) :- np(_,[pancreas,s,synchronous,glucose,production,of,glucose,and,
 		  that,produce,glucose],[]).
 test(mod2, fail) :- np(_,[pancreas,s,glucose,synchronous,production,of,glucose],[]).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%     Respect of syntactic rules related to verb usage.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Respect of transitivity in the main proposition.
 test(trans_1, fail) :- p([_],[doctor,smile],[]). % No use of intransitive verb.
@@ -93,9 +101,9 @@ test(adv_4, fail) :- % Wrong order of adverbs and adverbial PPs
 test(adv_5, fail) :- % Wrong position of the adverb.
 	p([_],[betacell,synchronously,produce,insulin],[]).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%     Respect of syntactic rules related to proposition extensions.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Respect of plural readings.
 test(plural_1, Z==2) :- p(X,[alphacell,and,betacell,produce,insulin],[]),
@@ -107,14 +115,6 @@ test(plural_3, Z==4) :- p(X,[alphacell,and,betacell,produce,insulin,and,glucose]
 test(plural_4, fail) :- p(_,[alphacell,or,betacell,produce,insulin],[]). % Not handled.
 test(plural_5, fail) :- p(_,[alphacell,produce,insulin,or,glucose],[]). % No supremum.
 test(plural_6) :- p([_],[insulin,is,produced,by,alphacell,or,betacell],[]). % Supremum.
-
-
-test(post_rc_3) :- np(_,[pancreas,that,produce,glucose,and,that,produce,insulin],[]).
-
-
-%%%%%%%%% POTENTIALLY FAILING SO AT THE END.
-
-
 
 :- end_tests(grammar).
 

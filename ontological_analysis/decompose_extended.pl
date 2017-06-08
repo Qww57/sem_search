@@ -10,6 +10,14 @@
 :- [extended_grammar].     % Loading the syntactic grammar.
 :- [reverse_grammar].      % Loading helper functions to unparse a tree.
 
+% TODO - handle prepositional verb here!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Defining rules to extract information from propositions.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % decompose(S, Fs) - decompose sentence S in a list of facts Fs.
 %
@@ -20,7 +28,6 @@
 %
 decompose(S,R) :- decompose1(S,X), flatten(X,Y), filter(Y,R), nl,
 	length(R,M), write(M), write(' relations found'), nl, nl.
-
 
 decompose1(S,R) :- p(Z,S,[]), % Parse proposition
 	Z = [p(TNP,TVP)], TVP = vp(V,TNP2),  % Get verb and noun phrases
@@ -78,7 +85,7 @@ decompose_np(TNP, NewSNP, [H|T]) :- TNP = np(n(N), mod(M), ext([pc(R,TNP2)])),
 
 % VP - Active without modifiers.
 decompose_vp(SNP1, R, NP, [H|T]) :- R = verb(active(V), mod([])),
-	H = fact(def2,SNP1,[V],SNP2), decompose_np(NP, SNP2, T).
+	H = fact(def,SNP1,[V],SNP2), decompose_np(NP, SNP2, T).
 
 % VP - Passive with modifiers.
 decompose_vp(SNP1, R, TNP2, [H1,H2|T]) :- R = verb(active(V), mod(M)),
@@ -121,8 +128,10 @@ decompose_np1(TNP, NewSNP, [H1,H2|T]) :- TNP = np(n(N), mod([pp(PREP,TNP2)]), ex
 	H1 = fact(prep, NewSNP, PREP, NewSNP2),	H2 = isa(NewSNP, [N]).
 
 % With only one modifier - CN. - TODO, ADD RELATION BASED ON SEMANTIC
-decompose_np1(TNP, NewSNP, H) :- TNP = np(n(N), mod([cn(n(N2))]), ext([])),
-	reverse_np(TNP, NewSNP), H = isa([N],[N2]).
+decompose_np1(TNP, NewSNP, [H1,H2]) :- TNP = np(n(N), mod([cn(n(N2))]), ext([])),
+	reverse_np(TNP, NewSNP),
+	H1 = isa(NewSNP,[N]),
+	H2 = fact(ger, NewSNP, [affiliation], [N2]).
 
 % With only one modifier - GER.
 decompose_np1(TNP, NewSNP, [H1,H2|T]) :- TNP = np(n(N), mod([ger(R,TNP2)]), ext([])),
@@ -206,17 +215,14 @@ observation(_,_,_,[]) :- nl, write('Default observation'), nl.
 observation(SNP1,verb(passive(V), mod([])),[H]) :- % Without prepositional term.
 	H = fact(observation,SNP1,[is,V,by],[entity]). % Create observation.
 observation(SNP1,R,[H1,H2|T]) :- % With prepositional terms.
-	% nl, nl, write(R),
 	R = verb(passive(V), mod(M)), lex(V1,_,_,V), nomi(N,V1),
 	np(TNP1,SNP1,[]), TrN = np(n(N), mod([pp(of,TNP1)|M]), ext([])),
-	% nl, write('In observation: '), nl,
 	H1 = fact(observation,SNP1,[is,V,by],[entity]),
 	decompose_np(TrN,SrN,T),  H2 = attach(H1,SrN).
-	% nl, write(TrN), nl,
-	% nl, write(SrN), nl, !.
 
 % Default case.
 observation(_,_,[]) :- nl, write('Default observation'), nl.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -224,13 +230,14 @@ observation(_,_,[]) :- nl, write('Default observation'), nl.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Append three lists together.
 append([],[],L,L).
 append([],[H|T],L,[H|R]) :- append([],T,L,R).
 append([H|T],L0,L1,[H|R]) :- append(T,L0,L1,R).
 
-filter([], []). % Filter duplicates.
+% Filter duplicates in a list.
+filter([], []).
 filter([H|T], [H|T1]) :- subtract(T,[H],T2), filter(T2, T1).
-
 
 % Convert list of parse trees into strings.
 convert_np(_,[],[]).

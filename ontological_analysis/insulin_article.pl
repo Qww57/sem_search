@@ -1,8 +1,24 @@
-:- ensure_loaded(extended_grammar).
-:- ensure_loaded(decompose_extended).
-:- include(insulin_lexicon).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Insulin_article.pl:
+%
+%	      Example from the first paragraph of wikipedia's
+%                          article on insulin.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% First paragraph on wikipedia article on insulin.
+:- ensure_loaded(extended_grammar).    % Loading the extended grammar.
+:- ensure_loaded(decompose_extended).  % Loading decomposition algo.
+:- include(insulin_lexicon).           % Loading the dedicated lexicon.
+:- ensure_loaded(search).	       % Loding search algorithm.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Translation of the sentences into Natural Logics.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 sentence(10, [insulin, isa, peptide, hormone, that, is, produced, by, betacell,
 	     of, pancreatic, islet]).
@@ -48,7 +64,13 @@ sentence(70, [insulin,
 	      promote, at, low, insulin, concentration,
 	      widespread, catabolism]).
 
-%%%%%%%% A few functions:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Definition of some helper functions.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 decompose_sentence(X,R) :- sentence(X,Y), decompose(Y,R).
 is_sentence(X) :- sentence(X, _).
@@ -57,10 +79,12 @@ read_article(R) :- setof(Y, is_sentence(Y),IDs), read_article(IDs,X), filter(X,R
 read_article([],[]).
 read_article([H|T], R) :- read_article(T, R0), decompose_sentence(H,R1), append(R0,R1,R).
 
-%%%%%%%% Test cases:
 
-display_list([]). % Display results.
-display_list([H|T]) :- nl, write(H), nl, !, display(T).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Definition of basis test cases.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- begin_tests(insulin).
 
