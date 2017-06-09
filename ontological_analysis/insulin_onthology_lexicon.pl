@@ -24,7 +24,7 @@ lex(at,   preposition).
 
 
 % Lexicon: nouns
-lex(absorption,    noun, process).
+lex(absorption,    noun, creation).
 lex(betacell,      noun, cell).
 lex(blood,         noun, body_fluid).
 lex(cell,          noun, cell).
@@ -65,13 +65,16 @@ lex(convert,    trans, event,   converted,   const([body_part, transformation],
 						   [body_fluid])).
 lex(excrete,    trans, event,   excreted,    const([creative, body_part],
 						   [body_fluid])).
-lex(inhibit,    trans, event,   inhibited,   const([process],
+lex(inhibit,    trans, event,   inhibited,   const([process, quality,
+						    body_part, body_fluid],
 						   [process])).
 lex(produce,    trans, event,   produced,    const([body_part, creation],
 						   [body_fluid])).
-lex(promote,    trans, event,   promoted,    const([process],
+lex(promote,    trans, event,   promoted,    const([process, quality,
+						    body_part, body_fluid],
 						   [process])).
-lex(regulate,   trans, event,   regulated,   const([process],
+lex(regulate,   trans, event,   regulated,   const([process, quality,
+						    body_part, body_fluid],
 						   [process, state])).
 lex(synthesize, trans, event,   synthesized, const([process],
 						   [body_fluid])).

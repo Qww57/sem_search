@@ -9,9 +9,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-:- ensure_loaded([onthology_skeleton]).        % Loading ontology.
-:- [onthological_constraints].		       % Loading constraints.
-:- [insulin_onthology_lexicon].                % Loading the lexicon.
+:- [onthology_skeleton].	   % Loading the ontology skeleton.
+:- [onthological_constraints].	   % Loading the domain constraints.
+:- [insulin_onthology_lexicon].    % Loading the dedicated lexicon.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,11 +60,11 @@ vp(vp(V,pred(A)), const(S0)) -->  rterm(V,_,copular, const(_,_)), adjs(A, const(
 vp(vp(V,N),	  const(S0)) -->  rterm(V,trans,_, const(S1,S2)), np(N, const(S3)),
 	                          {isa_of(S0,S1), isa_of(S3,S2)}.
 vp(vp(verb(passive(V),mod(M))), const(S0)) --> [is,V],
-	{lex(_,trans, _,V,const(S1,_))}, {isa_of(S0,S1)}, pps(M).
+	{lex(_,trans, _,V,const(_,SS0))}, {isa_of(S0,SS0)}, pps(M).
 vp([vp(V,N1),vp(V,N2)], const(S0)) -->  rterm(V,trans,_, const(S1,S2)),
 	np(N1, const(S3)), [and], np(N2, const(S4)),
 	{isa_of(S0,S1), isa_of(S3,S2), isa_of(S4,S2)}.
-%  vp(vp(V,N), const(S)) --> rterm(V,trans,_,const(S,C)), np(N1,const(C)), [or],
+% vp(vp(V,N), const(S)) --> rterm(V,trans,_,const(S,C)), np(N1,const(C)), [or],
 % np(N2, const(C)), !,{reverse_np(N1,S1),reverse_np(N2,S2), supremum(S1,S2,N)}.
 
 
@@ -79,6 +79,7 @@ np(np(N,mod(M),ext(E)),   const(S0)) --> pre(Q, L, const(S0)), n(N, const(S0)),
 	                                 post(P,E, const(S0)),
 					 {check_adj(S0,L), append(Q,P,M)}.
 
+check_adj(_,[])	   :- true.
 check_adj(X,[H])   :- isa_of(X,H).
 check_adj(X,[H|T]) :- isa_of(X,H), check_adj(X,T).
 
@@ -140,16 +141,16 @@ app(pc(V,N), const(S0)) --> [','], [which], rterm(V,trans,_,const(L0,L1)),
 rterm(verb(V,mod(M)),X,T, const(S,C)) -->  rterm1(V,X,T, const(S,C)),
 	       advs(P), pps(Q), {append(P,Q,M)}.
 rterm(verb(passive(V),mod([])),X,T, const(S,C)) --> [is,V],
-	       {lex(_,X,T,V,const(S,C))}, [by].
+	       {lex(_,X,T,V,const(C,S))}, [by].
 rterm(verb(passive(V),mod(M)),X,T,  const(S,C))	--> [is,V],
-	       {lex(_,X,T,V,const(S,C))}, pps(M), [by].
+	       {lex(_,X,T,V,const(C,S))}, pps(M), [by].
 rterm1(active(V),X,T,const(S,C)) --> [V], {lex(V, X, T, _, const(S,C))}.
 % Space for prepositional verb here.
 
 
 % Adverbial PPs.
 pps([])		     -->  {true}. % Potentially no adverbial PPs.
-pps([pp(P,[R],N)])   -->  prep(P), np(N, const(S1)), {aff(P,_,S1,R)}.
+pps([pp(P,[R],N)])   -->  prep(P), np(N, const(S1)), {aff(P,_,SS1,R), isa(S1,SS1)}.
 pps([pp(P,[R],N)|T]) -->  prep(P), np(N, const(S1)), align(_), pps(T),
 	                  {aff(P,_,SS1,R), isa(S1,SS1)}.
 pps([pp(P,[R],N)|T]) -->  prep(P), np(N, const(S1)), pps(T),
