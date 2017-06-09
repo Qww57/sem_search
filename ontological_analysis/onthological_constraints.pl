@@ -8,25 +8,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- [onthology_skeleton].   % Loading the is_subset_of predicate.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Defining transitive rules for constraints.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-lex(X, trans, const(Y,M))  :-  isa(Y,Z), lex(X, trans, const(Z,M)), !.
-lex(X, trans, const(Y,M))  :-  isa(M,N), lex(X, trans, const(Y,N)), !. % FIXME
-lex(X, adj, const(Y), M)   :-  isa(Y,Z), lex(X, adj, const(Z), M), !.
-
-isa(X,Y)                   :-  isa(X,Y,[]).
-isa(X,Y,V)		   :-  is_subset_of(X,Y), \+ memberchk((X,Y),V).
-isa(X,Y,V)		   :-  is_subset_of(X,Z), \+ memberchk((X,Z),V),
-			       isa(Z,Y,[(X,Y)|V]).
-
-aff(P,Y,S2,R)  :-  isa(Y,S1), aff(P,S1,S2,R).
-aff(P,S1,Y,R)  :-  isa(Y,S2), aff(P,S1,S2,R).
+:- ensure_loaded([onthology_skeleton]).	% Loading the is_subset_of predicate.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -10,7 +10,6 @@
 
 
 :- discontiguous lex/2.
-:- discontiguous lex/4.
 :- discontiguous lex/5.
 :- discontiguous nomi/2.
 
@@ -57,22 +56,25 @@ lex(triglyceride,  noun, body_fluid).
 
 
 % Lexicon: verbs
-lex(isa,        trans, copular, const(X,X),                        is_some).
+lex(isa,        trans, copular, is_some,     const(X,X)).
 
-lex(affect,     trans, event,   const(_,_),                        affected).
-lex(absorb,     trans, event,   const(process, body_fluid),        absorbed).
-lex(absorb,     trans, event,   const(body_part, body_fluid),      absorbed).
-lex(convert,    trans, event,   const(transformation, body_fluid), converted).
-lex(convert,    trans, event,   const(body_part, body_fluid),      converted).
-lex(excrete,    trans, event,   const(creative, body_fluid),       excreted).
-lex(excrete,    trans, event,   const(body_part, body_fluid),      excreted).
-lex(inhibit,    trans, event,   const(process, process),           inhibited).
-lex(produce,    trans, event,   const(creation, body_fluid),       produced).
-lex(produce,    trans, event,   const(body_part, body_fluid),      produced).
-lex(promote,    trans, event,   const(process, process),	   promoted).
-lex(regulate,   trans, event,   const(process, process),           regulated).
-lex(synthesize, trans, event,   const(process, state),             synthesized).
-lex(synthesize, trans, event,   const(process, body_fluid),        synthesized).
+lex(affect,     trans, event,   affected,    const([_],[_])).
+lex(absorb,     trans, event,   absorbed,    const([body_part, process],
+						   [body_fluid])).
+lex(convert,    trans, event,   converted,   const([body_part, transformation],
+						   [body_fluid])).
+lex(excrete,    trans, event,   excreted,    const([creative, body_part],
+						   [body_fluid])).
+lex(inhibit,    trans, event,   inhibited,   const([process],
+						   [process])).
+lex(produce,    trans, event,   produced,    const([body_part, creation],
+						   [body_fluid])).
+lex(promote,    trans, event,   promoted,    const([process],
+						   [process])).
+lex(regulate,   trans, event,   regulated,   const([process],
+						   [process, state])).
+lex(synthesize, trans, event,   synthesized, const([process],
+						   [body_fluid])).
 
 nomi(absorption, absorb).
 nomi(excretion,  excrete).
@@ -85,19 +87,16 @@ nomi(synthesis,	 synthesize).
 
 
 % Lexicon: adjectives:
-lex(anabolic,    adj, inter, predi, const(body_fluid)).
-lex(anabolic,    adj, inter, predi, const(body_part)).
-lex(circulating, adj, inter, predi, const(_)).
-lex(pancreatic,  adj, inter, predi, const(body_part)).
-lex(pancreatic,  adj, inter, predi, const(body_fluid)).
-lex(skeletal,    adj, inter, predi, const(body_part)).
-lex(skeletal,    adj, inter, predi, const(body_fluid)).
+lex(anabolic,    adj, inter, predi, const([body_fluid, body_part])).
+lex(circulating, adj, inter, predi, const([_])).
+lex(pancreatic,  adj, inter, predi, const([body_fluid, body_part])).
+lex(skeletal,    adj, inter, predi, const([body_fluid, body_part])).
 
-lex(high,        adj, subs,  predi, const(_)).
-lex(large,       adj, subs,  predi, const(_)).
-lex(low,         adj, subs,  predi, const(_)).
-lex(small,       adj, subs,  predi, const(_)).
-lex(widespread,  adj, subs,  predi, const(_)).
+lex(high,        adj, subs,  predi, const([_])).
+lex(large,       adj, subs,  predi, const([_])).
+lex(low,         adj, subs,  predi, const([_])).
+lex(small,       adj, subs,  predi, const([_])).
+lex(widespread,  adj, subs,  predi, const([_])).
 
 
 % Lexicon: adverbs

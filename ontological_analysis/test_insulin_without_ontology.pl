@@ -13,7 +13,7 @@
 :- ensure_loaded(extended_grammar).    % Loading the extended grammar.
 :- ensure_loaded(decompose_extended).  % Loading decomposition algo.
 :- include(insulin_lexicon).           % Loading the dedicated lexicon.
-:- ensure_loaded(search).	       % Loding search algorithm.
+:- ensure_loaded(search).	           % Loding search algorithm.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

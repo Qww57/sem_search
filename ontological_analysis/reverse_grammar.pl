@@ -2,13 +2,13 @@
 %
 % Reverse_grammar.pl:
 %
-%	       Helper functions in order to convert parse trees 
+%	       Helper functions in order to convert parse trees
 %                      to strings (list of words).
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- ensure_loaded(extended_grammar).
+:- ensure_loaded([extended_grammar]).
 
 
 % Reverse a noun phrase.
