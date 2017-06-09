@@ -8,17 +8,6 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- ensure_loaded(extended_grammar).    % Loading the extended grammar.
-:- ensure_loaded(decompose_extended).  % Loading decomposition algo.
-:- include(insulin_lexicon).           % Loading the dedicated lexicon.
-:- ensure_loaded(search).	       % Loding search algorithm.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Translation of the sentences into Natural Logics.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 sentence(10, [insulin, isa, peptide, hormone, that, is, produced, by, betacell,
 	     of, pancreatic, islet]).
@@ -65,56 +54,9 @@ sentence(70, [insulin,
 	      widespread, catabolism]).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Definition of some helper functions.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-decompose_sentence(X,R) :- sentence(X,Y), decompose(Y,R).
-is_sentence(X) :- sentence(X, _).
 
-read_article(R) :- setof(Y, is_sentence(Y),IDs), read_article(IDs,X), filter(X,R).
-read_article([],[]).
-read_article([H|T], R) :- read_article(T, R0), decompose_sentence(H,R1), append(R0,R1,R).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Definition of basis test cases.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-:- begin_tests(insulin).
-
-% Parsing of the sentences, should be successful.
-test(sentence_1_0) :- sentence(10,X), p(_,X,[]).
-test(sentence_2_0) :- sentence(20,X), p(_,X,[]).
-test(sentence_2_1) :- sentence(21,X), p(_,X,[]).
-test(sentence_2_2) :- sentence(22,X), p(_,X,[]).
-test(sentence_3_0) :- sentence(30,X), p(_,X,[]).
-test(sentence_4_0) :- sentence(40,X), p(_,X,[]).
-test(sentence_4_1) :- sentence(41,X), p(_,X,[]).
-test(sentence_5_0) :- sentence(50,X), p(_,X,[]).
-test(sentence_6_0) :- sentence(60,X), p(_,X,[]).
-test(sentence_7_0) :- sentence(70,X), p(_,X,[]).
-
-% Decomposition of the sentences, should be successful (considering
-% existing errors in the parse tree).
-
-test(decompose_1_0) :- sentence(10,X), !, decompose(X,_).
-test(decompose_2_0) :- sentence(20,X), !, decompose(X,_).
-test(decompose_2_1) :- sentence(21,X), !, decompose(X,_).
-test(decompose_2_2) :- sentence(22,X), !, decompose(X,_).
-test(decompose_3_0) :- sentence(30,X), !, decompose(X,_).
-test(decompose_4_0) :- sentence(40,X), !, decompose(X,_).
-test(decompose_4_1) :- sentence(41,X), !, decompose(X,_).
-test(decompose_5_0) :- sentence(50,X), !, decompose(X,_).
-test(decompose_6_0) :- sentence(60,X), !, decompose(X,_).
-test(decompose_7_0) :- sentence(70,X), !, decompose(X,_).
-
-:- end_tests(insulin).
 
 
 

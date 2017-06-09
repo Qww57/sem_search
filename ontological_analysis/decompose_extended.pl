@@ -10,7 +10,8 @@
 :- [extended_grammar].     % Loading the syntactic grammar.
 :- [reverse_grammar].      % Loading helper functions to unparse a tree.
 
-% TODO - handle prepositional verb here!
+% TODO - handle prepositional verb in decomposition.
+% TODO - handle predicate adjectives in decomposition.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,6 +78,7 @@ decompose_np(TNP, NewSNP, [H|T]) :- TNP = np(n(N), mod(M), ext([pc(R,TNP2)])),
 	TNPbis = np(n(N), mod(M), ext([])), decompose_np(TNPbis, NewSNP, T1),
 	H = fact(def, NewSNP,[V], NewSNP2), append(T0, T1, T).
 
+% Active PC-isa with modifiers - TODO.
 % Active PC with modifiers - TODO.
 % Passive PC without modifiers - TODO.
 % Passsive PC with modifiers - TODO.
@@ -170,7 +172,7 @@ decompose_np1(TNP,NewSNP, T) :- TNP = np(n(N), mod(M), ext([])), M \= [],
 	decompose_subnp(SubSNPs, _, R2),!, % Decompose NPs recursively.
 	append(R,R1,R2,T). % Append lists.
 
-% Problem of list that is not flat, use of head here cause append crashes.
+% FIX: Problem: list that is not flat, use of head here cause append crashes.
 dec_modifiers(_,[],[],[]).
 dec_modifiers(N, [H0|T0],[H1|T1], [R0|T2]) :- TNP = np(n(N), mod([H0]), ext([])),
 	decompose_np(TNP, NewSNP, R0), np(NewTNP, NewSNP, []), % write(R0), nl,
@@ -209,7 +211,7 @@ observation(SNP1,R,SNP2,[H1,H2|T]) :- % With prepositional terms.
 	decompose_np(TrN,SrN,T),!.
 
 % Default case.
-observation(_,_,_,[]) :- nl, write('Default observation'), nl.
+observation(_,_,_,[]) :- nl, write('Default observation 1'), nl.
 
 % Case: Passive verb without agent.
 observation(SNP1,verb(passive(V), mod([])),[H]) :- % Without prepositional term.
@@ -221,7 +223,7 @@ observation(SNP1,R,[H1,H2|T]) :- % With prepositional terms.
 	decompose_np(TrN,SrN,T),  H2 = attach(H1,SrN).
 
 % Default case.
-observation(_,_,[]) :- nl, write('Default observation'), nl.
+observation(_,_,[]) :- nl, write('Default observation 2'), nl.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

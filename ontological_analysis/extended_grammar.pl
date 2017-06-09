@@ -2,7 +2,7 @@
 %
 % Extended_grammar.pl:
 %
-%	       Extanded grammar for Natural Logics, without
+%	       Extended grammar for Natural Logics, without
 %	                 onthological analysis.
 %
 %
@@ -102,7 +102,7 @@ rterm(verb(V,mod(M)),X,T) -->   rterm1(V,X,T), advs(P), pps(Q), {append(P,Q,M)}.
 rterm(verb(passive(V),mod([])),X,T) -->	[is,V], {lex(_,X,T,V)}, [by].
 rterm(verb(passive(V),mod(M)),X,T)  -->	[is,V], {lex(_,X,T,V)}, pps(M), [by].
 
-rterm1(active(V),X,T)     -->   [V], {lex(V, X, T, _)}. % Active transitive.
+rterm1(active(V),X,T)  -->   [V], {lex(V, X, T, _)}. % Active transitive.
 rterm1(active(V,P),X,T)   -->   [V], {lex(V, X, T, _)}, prep(P). % Act intrans with prep.
 
 % Adverbial PPs.

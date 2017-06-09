@@ -1,9 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Extended_grammar.pl:
+% Reverse_grammar.pl:
 %
-%	       Extanded grammar for Natural Logics, without
-%	                 onthological analysis.
+%	       Helper functions in order to convert parse trees 
+%                      to strings (list of words).
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

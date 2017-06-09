@@ -94,9 +94,4 @@ lex(widespread,  adj, subs,  predi).
 lex(strongly, adv).
 
 
-% ISA relations
-isa([betacell], [cell]).
-isa([alphacell], [cell]).
-
-
 
