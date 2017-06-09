@@ -22,7 +22,7 @@ aff(in, process, material, location).
 aff(in, quality, material, beared_by).
 aff(in, information, process, affiliation).
 
-aff(by, process, material, agent).
+aff(by, process, body_part, agent).
 aff(by, process, process, manner).
 aff(by, process, artifact, instrument).
 
@@ -49,6 +49,8 @@ aff(at, _, _, _).
 aff(cn, body_fluid, process, result).
 aff(cn, organ, process, agent).
 aff(cn, cell, process, agent).
+aff(cn, process, process, manner).
+aff(cn, body_part, body_part, characterization).
 
 
 
