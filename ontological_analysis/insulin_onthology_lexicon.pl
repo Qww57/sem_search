@@ -24,7 +24,7 @@ lex(at,   preposition).
 
 
 % Lexicon: nouns
-lex(absorption,    noun, creation).
+lex(absorption,    noun, process).
 lex(betacell,      noun, cell).
 lex(blood,         noun, body_fluid).
 lex(cell,          noun, cell).
@@ -79,6 +79,7 @@ lex(regulate,   trans, event,   regulated,   const([process, quality,
 lex(synthesize, trans, event,   synthesized, const([process],
 						   [body_fluid])).
 
+nomi(_, isa).
 nomi(absorption, absorb).
 nomi(excretion,  excrete).
 nomi(conversion, convert).

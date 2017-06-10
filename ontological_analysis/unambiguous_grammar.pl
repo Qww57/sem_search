@@ -60,7 +60,7 @@ vp(vp(V,pred(A)), const(S0)) -->  rterm(V,_,copular, const(_,_)), adjs(A, const(
 vp(vp(V,N),	  const(S0)) -->  rterm(V,trans,_, const(S1,S2)), np(N, const(S3)),
 	                          {isa_of(S0,S1), isa_of(S3,S2)}.
 vp(vp(verb(passive(V),mod(M))), const(S0)) --> [is,V],
-	{lex(_,trans, _,V,const(_,SS0))}, {isa_of(S0,SS0)}, pps(M).
+	{lex(V0,trans, _,V,const(_,SS0))},  {isa_of(S0,SS0)}, pps(M, V0).
 vp([vp(V,N1),vp(V,N2)], const(S0)) -->  rterm(V,trans,_, const(S1,S2)),
 	np(N1, const(S3)), [and], np(N2, const(S4)),
 	{isa_of(S0,S1), isa_of(S3,S2), isa_of(S4,S2)}.
@@ -139,23 +139,30 @@ app(pc(V,N), const(S0)) --> [','], [which], rterm(V,trans,_,const(L0,L1)),
 
 % Relation terms
 rterm(verb(V,mod(M)),X,T, const(S,C)) -->  rterm1(V,X,T, const(S,C)),
-	       advs(P), pps(Q), {append(P,Q,M)}.
+	       advs(P), pps(Q,V), {append(P,Q,M)}.
 rterm(verb(passive(V),mod([])),X,T, const(S,C)) --> [is,V],
 	       {lex(_,X,T,V,const(C,S))}, [by].
 rterm(verb(passive(V),mod(M)),X,T,  const(S,C))	--> [is,V],
-	       {lex(_,X,T,V,const(C,S))}, pps(M), [by].
+	       {lex(V0,X,T,V,const(C,S))}, pps(M,V0), [by].
 rterm1(active(V),X,T,const(S,C)) --> [V], {lex(V, X, T, _, const(S,C))}.
 % Space for prepositional verb here.
 
 
 % Adverbial PPs.
-pps([])		     -->  {true}. % Potentially no adverbial PPs.
-pps([pp(P,[R],N)])   -->  prep(P), np(N, const(S1)), {aff(P,_,SS1,R), isa(S1,SS1)}.
-pps([pp(P,[R],N)|T]) -->  prep(P), np(N, const(S1)), align(_), pps(T),
-	                  {aff(P,_,SS1,R), isa(S1,SS1)}.
-pps([pp(P,[R],N)|T]) -->  prep(P), np(N, const(S1)), pps(T),
-	                  {aff(P,_,SS1,R), isa(S1,SS1)}.
+pps([],_)	        -->  {true}. % Potentially no adverbial PPs.
+pps([pp(P,[R],N)],V0)    -->  prep(P), np(N, const(S1)),
+	{correct(V0,V), nomi(N0,V), lex(N0,noun,S0),
+	 aff(P,SS0,SS1,R), isa(S0,SS0), isa(S1,SS1)}.
+pps([pp(P,[R],N)|T],V0) -->  prep(P), np(N, const(S1)), align(_), pps(T, V0),
+	{correct(V0,V), nomi(N0,V), lex(N0,noun,S0),
+	 aff(P,SS0,SS1,R), isa(S0,SS0),isa(S1,SS1)}.
+pps([pp(P,[R],N)|T],V0) -->  prep(P), np(N, const(S1)), pps(T, V0),
+	{correct(V0,V), nomi(N0,V), lex(N0,noun,S0),
+	 aff(P,SS0,SS1,R), isa(S0,SS0), isa(S1,SS1)}.
 
+correct(active(V),V) :- !.
+correct(passive(V),V). :- !.
+correct(V,V).
 
 % Adverbs.
 advs([])		--> {true}. % Potentially no adverbs.
