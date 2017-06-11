@@ -27,12 +27,15 @@ aff(by, process, body_part, agent).
 aff(by, process, process, manner).
 aff(by, process, artifact, instrument).
 aff(by, process, body_fluid, agent).
+aff(by, enhancement, quality, agent). % for nomi 240
 
 aff(of, creation, material, result).
 aff(of, transformation, material, patient).
 aff(of, enhancement, process, patient).
 aff(of, process, body_part, beared_by).
 aff(of, process, material, patient).
+aff(of, process, quality, patient). % for nomi 230
+aff(of, process, information, patient). % for nomi
 aff(of, quality, material, beared_by).
 aff(of, process, process, has_part).
 aff(of, body_part, material, part_of).

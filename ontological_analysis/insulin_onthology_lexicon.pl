@@ -115,6 +115,7 @@ lex(synthesize, trans, event,   synthesized, const([process],
 						   [body_fluid])).
 lex(take,       trans, event,   taken,       const(_,_)).
 
+% Equivalence verbs - nouns.
 nomi(_,           isa).
 nomi(absorption,  absorb).
 nomi(excretion,   excrete).
@@ -144,7 +145,9 @@ lex(high,          adj, subs,  predi, const([_])).
 lex(large,         adj, subs,  predi, const([_])).
 lex(low,           adj, subs,  predi, const([_])).
 lex(narrow,	   adj, subs,  predi, const([_])).
+lex(powerful,      adj, subs,  predi, const([_])).
 lex(small,         adj, subs,  predi, const([_])).
+lex(strong,        adj, subs,  predi, const([_])).
 lex(widespread,    adj, subs,  predi, const([_])).
 
 lex(opposite,      adj, non_subs, predi,     const([process, quality])).
@@ -152,11 +155,16 @@ lex(primary,	   adj, non_subs, non_predi, const([_])).
 
 
 % Lexicon: adverbs
-lex(strongly,	 adv).
 lex(highly,      adv).
 lex(lowly,       adv).
 lex(powerfully,  adv).
+lex(strongly,	 adv).
 
+% Equivalence adjectives - adverbs.
+adv_adj(highly,     high).
+adv_adj(lowly,      low).
+adv_adj(powerfully, powerful).
+adv_adj(strongly,   strong).
 
 
 

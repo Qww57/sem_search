@@ -84,12 +84,3 @@ sentence(241, [stimulation, of, liver, glucose, release, in, blood, by,
 sentence(250, [secretion, of, insulin, into, blood, in_response_to, blood, glucose,
 	       concentration, isa, primary, mechanism, that, keep, within,
 	       narrow, limit, glucose, concentration, in, extracellular, fluid]).
-
-
-% secretion, of, insulin, into, blood, in, in_response_to, blood,
-% glucose, concentration, isa, primary, mechanism, that, is,
-% responsible, for, keeping, glucose, concentration, in, extracellular,
-% fluid, within, narrow, limit, at, rest, after, meals, and, during,
-% excercise, starvation.
-
-

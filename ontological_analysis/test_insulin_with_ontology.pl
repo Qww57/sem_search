@@ -70,21 +70,33 @@ test(sentence_231) :- sentence(231,X), p(_,X,[]).
 test(sentence_232) :- sentence(232,X), p(_,X,[]).
 test(sentence_233) :- sentence(233,X), p(_,X,[]).
 test(sentence_240) :- sentence(240,X), p(_,X,[]).
+test(sentence_241) :- sentence(241,X), p(_,X,[]).
 test(sentence_250) :- sentence(250,X), p(_,X,[]).
 
 
 % Decomposition of the sentences, should be successful (considering
 % existing errors in the parse tree).
-test(decompose_1_0) :- sentence(110,X), !, decompose(X,_).
-test(decompose_2_0) :- sentence(120,X), !, decompose(X,_).
-test(decompose_2_1) :- sentence(121,X), !, decompose(X,_).
-test(decompose_2_2) :- sentence(122,X), !, decompose(X,_).
-test(decompose_3_0) :- sentence(130,X), !, decompose(X,_).
-test(decompose_4_0) :- sentence(140,X), !, decompose(X,_).
-test(decompose_4_1) :- sentence(141,X), !, decompose(X,_).
-test(decompose_5_0) :- sentence(150,X), !, decompose(X,_).
-test(decompose_6_0) :- sentence(160,X), !, decompose(X,_).
-test(decompose_7_0) :- sentence(170,X), !, decompose(X,_).
+test(decompose_110) :- sentence(110,X), !, decompose(X,_).
+test(decompose_120) :- sentence(120,X), !, decompose(X,_).
+test(decompose_121) :- sentence(121,X), !, decompose(X,_).
+test(decompose_122) :- sentence(122,X), !, decompose(X,_).
+test(decompose_130) :- sentence(130,X), !, decompose(X,_).
+test(decompose_140) :- sentence(140,X), !, decompose(X,_).
+test(decompose_141) :- sentence(141,X), !, decompose(X,_).
+test(decompose_150) :- sentence(150,X), !, decompose(X,_).
+test(decompose_160) :- sentence(160,X), !, decompose(X,_).
+test(decompose_170) :- sentence(170,X), !, decompose(X,_).
+
+test(decompose_210) :- sentence(210,X), !, decompose(X,_).
+test(decompose_220) :- sentence(220,X), !, decompose(X,_).
+test(decompose_221) :- sentence(221,X), !, decompose(X,_).
+test(decompose_230) :- sentence(230,X), !, decompose(X,_).
+test(decompose_231) :- sentence(231,X), !, decompose(X,_).
+test(decompose_232) :- sentence(232,X), !, decompose(X,_).
+test(decompose_233) :- sentence(233,X), !, decompose(X,_).
+test(decompose_240) :- sentence(240,X), !, decompose(X,_).
+test(decompose_241) :- sentence(241,X), !, decompose(X,_).
+test(decompose_250) :- sentence(250,X), !, decompose(X,_).
 
 :- end_tests(insulin).
 

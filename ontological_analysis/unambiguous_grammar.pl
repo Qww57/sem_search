@@ -161,12 +161,12 @@ pps([pp(P,[R],N)|T],V0) -->  prep(P), np(N, const(S1)), pps(T, V0),
 	 aff(P,SS0,SS1,R), isa(S0,SS0), isa(S1,SS1)}.
 
 correct(active(V),V) :- !.
-correct(passive(V),V). :- !.
+correct(passive(V),V) :- !.
 correct(V,V).
 
 % Adverbs.
 advs([])		--> {true}. % Potentially no adverbs.
-advs([A|T])	        --> adv(A), advs(T).
+advs([adv(A)|T])	        --> adv(A), advs(T).
 
 % Alignment keywords.
 align(X)                -->   [X], {X = and}.
