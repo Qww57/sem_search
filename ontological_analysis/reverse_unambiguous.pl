@@ -12,6 +12,25 @@
 
 
 % TODO EXTENSION.
+% TODO, take care of 'AND'
+%  np(X,Z,[liver,release,of,glucagon,in,blood,by,glycogenolysis,and,by,gluconeogenesis])
+%
+% could be understood differently without the 'and'.
+% 243 ?- np(X,Z,[liver,release,of,glucagon,in,blood,by,glycogenolysis,and,by,
+% gluconeogenesis],[]), reverse_np(X,Y), np(M,Z,Y,[]).
+% X = np(n(release), mod([cn([agent], n(liver)), pp(of, [patient],
+% np(n(glucagon), mod([]), ext([]))), pp(in, [location], np(n(blood),
+% mod([]), ext([]))), pp(by, [manner], np(n(glycogenolysis), mod([]),
+% ext([]))), pp(by, [manner], np(n(gluconeogenesis), mod([]),
+% ext([])))]), ext([])),
+% Z = const(process),
+% Y = [liver, release, of, glucagon, in, blood, by, glycogenolysis, by,
+% gluconeogenesis],
+% M = np(n(release), mod([cn([agent], n(liver)), pp(of, [patient],
+% np(n(glucagon), mod([]), ext([]))), pp(in, [location], np(n(blood),
+% mod([]), ext([]))), pp(by, [manner], np(n(glycogenolysis), mod([pp(by,
+% [manner], np(n(gluconeogenesis), mod([]), ext([])))]), ext([])))]),
+% ext([])) .
 
 % Reverse a noun phrase.
 reverse_np(NP,S) :- % nl, nl, write('Working on: '), write(NP), nl,

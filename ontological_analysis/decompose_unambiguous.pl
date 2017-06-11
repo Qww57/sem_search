@@ -16,6 +16,7 @@
 % TODO - handle predicate adjectives in decomposition.
 % TODO - handle ISA with modifiers.
 % TODO - handle all PC cases.
+% TODO - handle adjectives for nominalization.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

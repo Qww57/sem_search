@@ -21,6 +21,7 @@ aff(in, material, material, location).
 aff(in, process, material, location).
 aff(in, quality, material, location).
 aff(in, information, process, affiliation).
+aff(in, process, quality, manner).
 
 aff(by, process, body_part, agent).
 aff(by, process, process, manner).
@@ -29,6 +30,7 @@ aff(by, process, body_fluid, agent).
 
 aff(of, creation, material, result).
 aff(of, transformation, material, patient).
+aff(of, enhancement, process, patient).
 aff(of, process, body_part, beared_by).
 aff(of, process, material, patient).
 aff(of, quality, material, beared_by).
@@ -42,8 +44,16 @@ aff(into, process, material, direction).
 aff(from, process, body_fluid, source).
 aff(from, body_fluid, body_fluid, source).
 aff(from, body_fluid, body_part, source).
+aff(from, process, body_part, source).
 
 aff(at, entity, quality, condition).
+
+aff(as, quality, entity, comparison).
+
+aff(in_response_to, process, quality, cause).
+aff(in_response_to, process, process, cause).
+
+aff(within, entity, entity, location).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -60,6 +70,7 @@ aff(cn, material, quality, bearer).
 aff(cn, body_part, process, bearer).
 aff(cn, body_part, body_part, characterization).
 aff(cn, protein, protein, characterization).
+aff(cn, material, material, characterization).
 
 
 

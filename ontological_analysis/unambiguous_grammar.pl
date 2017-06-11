@@ -185,6 +185,7 @@ adv(A)		          -->   [A], {lex(A, adv)}.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% isa(X,Y) - returns true if X is a subclass of Y.
 isa(X,X).
 isa(X,Y)    :-  isa(X,Y,[]).
 isa(X,Y,V)  :-  is_subset_of(X,Y), \+ memberchk((X,Y),V).
@@ -193,9 +194,6 @@ isa(X,Y,V)  :-  is_subset_of(X,Z), \+ memberchk((X,Z),V), isa(Z,Y,[(X,Y)|V]).
 % isa_of(X,L) - returns true if X is a subclass of one of the elements of L.
 isa_of(_,[]) :- fail.
 isa_of(X,[H|T]) :- (isa(X,H) -> true ; isa_of(X,T)).
-
-% aff(P,Y,S2,R)  :-  isa(Y,S1), aff(P,S1,S2,R).
-% aff(P,S1,Y,R)  :-  isa(Y,S2), aff(P,S1,S2,R).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
