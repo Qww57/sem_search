@@ -17,7 +17,6 @@
 :- ensure_loaded(lexicon_insulin).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Helper functions.
@@ -27,7 +26,7 @@
 % have_same_elements(+X,+Y) - returns true if X and Y are composed of
 % the same elements.
 %
-have_same_elements(X,Y) :-
+have_same_elements(X,Y) :- !,
 	length(X,L), length(Y,L), !,
 	intersection(X,Y,Z), length(Z,L).
 intersection([X|Tail],Y,[X|Z]) :-
@@ -203,6 +202,38 @@ test(extension_pc_isa_in_rc_modified) :- % Should remove the extension when trea
 	     isa([production, of, fat, in, liver],
 		 [production, in, liver]),
 	     isa([production, of, fat, in, liver],
+		 [production, of, fat])],
+
+	M = [fact(prop, [pancreas, that, produce, in, liver, fat],
+		  [regulate], [production], observation),
+	     isa([pancreas, that, produce, in, liver, fat], [pancreas]),
+	     fact(rc, [pancreas], [produce], [fat], definition),
+	     attach(fact(rc, [pancreas], [produce], [fat], definition),
+		    [production, of, fat, and, by, pancreas, and, in, liver]),
+	     isa([fat], [triglyceride]),
+	     fact(prep, [production, of, fat], of, [fat], patient),
+	     isa([production, of, fat], [production]),
+	     fact(prep, [production, by, pancreas], by, [pancreas], agent),
+	     isa([production, by, pancreas], [production]),
+	     fact(prep, [production, in, liver], in, [liver], location),
+	     isa([production, in, liver], [production]),
+	     isa([production, of, fat, and, by, pancreas, and, in, liver],
+		 [production, by, pancreas, and, in, liver]),
+	     isa([production, of, fat, and, by, pancreas, and, in, liver],
+		 [production, of, fat, and, by, pancreas]),
+	     isa([production, of, fat, and, by, pancreas, and, in, liver],
+		 [production, of, fat, and, in, liver]),
+	     isa([production, by, pancreas, and, in, liver],
+		 [production, by, pancreas]),
+	     isa([production, by, pancreas, and, in, liver],
+		 [production, in, liver]),
+	     isa([production, of, fat, and, by, pancreas],
+		 [production, by, pancreas]),
+	     isa([production, of, fat, and, by, pancreas],
+		 [production, of, fat]),
+	     isa([production, of, fat, and, in, liver],
+		 [production, in, liver]),
+	     isa([production, of, fat, and, in, liver],
 		 [production, of, fat])],
 	have_same_elements(E,R).
 

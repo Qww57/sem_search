@@ -5,11 +5,10 @@
 %               Set of rules and affinities for onthological
 %                disambiguation of Natural Logics Grammar.
 %
-%
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- ensure_loaded([ontology_skeleton]).	% Loading the is_subset_of predicate.
-
+:- ensure_loaded([ontology_skeleton]).	% Loading ontology skeleton
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -27,15 +26,15 @@ aff(by, process, body_part, agent).
 aff(by, process, process, manner).
 aff(by, process, artifact, instrument).
 aff(by, process, body_fluid, agent).
-aff(by, enhancement, quality, agent). % for nomi 240
+aff(by, enhancement, quality, agent). 
 
 aff(of, creation, material, result).
 aff(of, transformation, material, patient).
 aff(of, enhancement, process, patient).
 aff(of, process, body_part, beared_by).
 aff(of, process, material, patient).
-aff(of, process, quality, patient). % for nomi 230
-aff(of, process, information, patient). % for nomi
+aff(of, process, quality, patient). 
+aff(of, process, information, patient). 
 aff(of, quality, material, beared_by).
 aff(of, process, process, has_part).
 aff(of, body_part, material, part_of).
@@ -76,9 +75,4 @@ aff(cn, protein, protein, characterization).
 aff(cn, material, material, characterization).
 
 
-
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

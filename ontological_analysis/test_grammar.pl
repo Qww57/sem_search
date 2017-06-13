@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Grammar_tests.pl:
+% test_grammar.pl:
 %
 %		      Unit tests for extended grammar.
 %

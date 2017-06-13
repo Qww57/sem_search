@@ -6,7 +6,34 @@
 %	             based on onthological analysis.
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file defines a DCG parser for Natural Logics propositions.
+% Among the extensions discussed for Natural Logics, it includes:
+% - fully recursive concept definition
+% - concept-modifiers:
+%    * relative clauses (RC)
+%    * prepositional phrases (PP)
+%    * compound nouns (CN)
+%    * possessives (GER)
+%    * adjectives (ADJ)
+% - concept extensions:
+%    * appositions (APP)
+%    * parenthetical clauses (PC)
+% - relation modifiers:
+%    * active and passive forms
+%    * adverbials PPs
+%    * manner oriented adverbs
+%    * conditions using adverbial PPs
+% - concept disjunctions
+% - concept conjunctions
+%
+%
+% However, some features have not been considered and implemented here,
+% such as prepositional verbs, passive relative clauses without
+% agent or disjunctions on both subject and object of proposition.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 :- [ontology_skeleton].	        % Loading the ontology skeleton.
@@ -14,32 +41,10 @@
 :- [lexicon_insulin].	        % Loading the dedicated lexicon.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Extensions of Natural Logics:
-% (on noun phrases)
-% - relative clauses: OK (post)
-% - prepositional phrases: OK (post)
-% - compound nouns: OK (pre)
-% - possessives: OK (pre)
-% - adjectives: OK (pre)
-% - appositions: OK (post)
-% - fully recursive structures: OK (order and composition)
-% (on verbs)
-% - prepositional verbs: NOT CONSIDERED
-% - passive forms: OK
-% - adverbs: OK
-% - adverbial prepositional phrase: OK
-% - expressing conditions: NOT CONSIDERED
-% (on propositions)
-% - conjunctions - distributive: OK
-% - disjunctions - distributive: OK
-%
-%
-% Passive RC without agent refused.
-%
-% MISSING DOUBLE DISTRIBUTIVE.
-% MISSING PREPOSITIONAL VERB.
+% DCG Parser for natural logics.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -63,8 +68,6 @@ vp(vp(verb(passive(V),mod(M))), const(S0)) --> [is,V],
 vp([vp(V,N1),vp(V,N2)], const(S0)) -->  rterm(V,trans,_, const(S1,S2)),
 	np(N1, const(S3)), [and], np(N2, const(S4)),
 	{isa_of(S0,S1), isa_of(S3,S2), isa_of(S4,S2)}.
-% vp(vp(V,N), const(S)) --> rterm(V,trans,_,const(S,C)), np(N1,const(C)), [or],
-% np(N2, const(C)), !,{reverse_np(N1,S1),reverse_np(N2,S2), supremum(S1,S2,N)}.
 
 
 % Adjectives as predicate.
@@ -195,7 +198,12 @@ isa_of(_,[]) :- fail.
 isa_of(X,[H|T]) :- (isa(X,H) -> true ; isa_of(X,T)).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Helper functions
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 supremum(S1,S2,N) :- ( isa(S1,N), isa(S2,N) -> print_common(N,S1,S2) ; fail).
 
@@ -205,17 +213,5 @@ print_common(N,S1,S2) :- nl, write('Common supremum found for '), write(S1),
 reverse_rterm(verb(active(V),mod(_)), [V]).
 reverse_rterm(verb(passive(V),mod(_)), [V]).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
-
-
-
-
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

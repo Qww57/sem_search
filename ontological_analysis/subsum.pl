@@ -70,7 +70,8 @@ test_rank_zero(KB,[H|T]) :- count(KB,H,_,0), !, test_rank(KB,T), !.
 % Returns the list Y of complex concepts contained in X.
 % Remark, if word not defined in lexicon, considered as complex term.
 complex([],[]).
-complex([H1|T1],T)     :- np(TNP,H1,[]),TNP = np(_,comp([])),complex(T1,T).
+complex([H1|T1],T)     :- np(TNP,_,H1,[]), TNP = np(_,mod([]),ext([])),
+	complex(T1,T).
 complex([H|T1],[H|T2]) :- complex(T1,T2).
 
 

@@ -78,13 +78,9 @@ inf_rule(KB,T,Csub,V,Dsup,R) :-
 %
 inf_rule(KB,Csub,D) :- subclass(KB,Csub,C), member(isa(C,D), KB).
 
-% Rule 3:
+% Rule 5:
 % If (C isa D) & (D isa D') then (C isa D').
 %
 inf_rule(KB,C,Dsup) :- subclass(KB,D,Dsup), member(isa(C,D), KB).
 
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -26,6 +26,33 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% Definition of functions to create the knowledge base.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+create_kb(Title) :-
+	read_article(R),
+	infer(R,R1),
+	% subsum(R1,R2),
+	save_as_text(R1,Title).
+
+% save_as_text(+KB, +Title) - save the KB as a text file.
+save_as_text(KB, Title) :-
+    open(Title,write, Stream), write_kb(Stream,KB), close(Stream).
+write_kb(_,[]).
+write_kb(Stream,[H|T]) :- write(Stream,H), write(Stream,'.'), nl(Stream),
+	write_kb(Stream,T).
+
+% read_from_text(+Title, -KB) - get the KB from text file.
+read_from_text(Title, KB):-
+    open(Title, read, Str), read_file(Str,X), lbl(X,KB), close(Str).
+read_file(Stream,[]) :- at_end_of_stream(Stream).
+read_file(Stream,[X|L]) :- \+ at_end_of_stream(Stream),
+    read(Stream,X), read_file(Stream,L).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % Definition of some helper functions.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -35,35 +62,18 @@ is_sentence(X) :- sentence(X, _).
 
 read_article(R) :- setof(Y,is_sentence(Y),IDs), read_article(IDs,X), filter(X,R).
 read_article([],[]).
-read_article([H|T], R) :- read_article(T, R0), decompose_sentence(H,R1), append(R0,R1,R).
+read_article([H|T], R) :- read_article(T, R0),
+	decompose_sentence(H,R1), append(R0,R1,R).
 
-save_as_txt(KB, Title) :-
-    open(Title,write, Stream),
-    write_kb(Stream,KB),
-    close(Stream).
-
-write_kb(_,[]).
-write_kb(Stream,[H|T]) :- write(Stream,H), write(Stream,'.'), nl(Stream),
-	write_kb(Stream,T).
-
-read_from_text(Title, KB):-
-    open(Title, read, Str),
-    read_file(Str,X), list_butlast(X,KB),
-    close(Str).
-
-read_file(Stream,[]) :- at_end_of_stream(Stream).
-read_file(Stream,[X|L]) :- \+ at_end_of_stream(Stream),
-    read(Stream,X), read_file(Stream,L).
-
-list_butlast([X|Xs], Ys) :-                 % use auxiliary predicate ...
-   list_butlast_prev(Xs, Ys, X).            % ... which lags behind by one item
-
+% lbl(+X,-Y) :- returns list except last element.
+lbl([X|Xs], Ys) :- list_butlast_prev(Xs, Ys, X).
 list_butlast_prev([], [], _).
 list_butlast_prev([X1|Xs], [X0|Ys], X0) :-
-   list_butlast_prev(Xs, Ys, X1).           % lag behind by one
+   list_butlast_prev(Xs, Ys, X1).
 
 test_ranks :- read_from_text('inferences.txt',KB), allRank(KB,Z),
 	concepts_of_rank(Z,0,L), !, test_rank(KB,L).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -95,7 +105,6 @@ test(sentence_233) :- sentence(233,X), p(_,X,[]).
 test(sentence_240) :- sentence(240,X), p(_,X,[]).
 test(sentence_241) :- sentence(241,X), p(_,X,[]).
 test(sentence_250) :- sentence(250,X), p(_,X,[]).
-
 
 % Decomposition of the sentences, should be successful (considering
 % existing errors in the parse tree).

@@ -20,8 +20,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-:- [grammar].		             % Loading the syntactic grammar.
-:- ensure_loaded([reverse_grammar]). % Functions to unparse trees.
+:- [grammar].			     % Loading syntactic grammar.
+:- ensure_loaded([reverse_grammar]). % Unparse trees.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,17 +98,13 @@ decompose_np(TNP, NewTNP, [H|T]) :- TNP = np(n(N), mod(M), ext([pc(R,TNP2)])),
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% NOT THE MOST EFFICIENT HERE, BUT MORE MODULAR
-
 % VP - Active without modifiers.
-% decompose_vp(+TNP1, +R, +TNP2, -NewTNP2, -T).
 decompose_vp(TNP1, R, TNP2, NewTNP2, [H|T]) :- R = verb(active(V), mod([])),
 	% write('Active VP without modifiers: '), write(V), nl,
 	decompose_np(TNP2, NewTNP2, T),
 	TNP1 = np(n(N), mod(_), ext([])),
 	NewTNP1 = np(n(N), mod([rc(R, NewTNP2)]), ext([])),
 	reverse_np(NewTNP1, SNP1), reverse_np(NewTNP2,SNP2),
-	write(SNP1),
 	H = fact(rc,SNP1,[V],SNP2,definition), !.
 
 % VP - Active with modifiers.
@@ -121,7 +117,6 @@ decompose_vp(TNP1, R, TNP2, NewTNP2,[H1,H2|T]) :- R = verb(active(V), mod(M1)),
 	TrN = np(n(N),mod([pp(of,[patient],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
 	decompose_np1(TrN,NewTrN,T2), append(T1,T2,T),
 	reverse_np(NewTNP1, SNP1), reverse_np(NewTNP2, SNP2), reverse_np(NewTrN,SrN),
-	write(SrN), nl,
 	H1 = fact(rc,SNP1,[V],SNP2,definition), H2 = attach(H1,SrN), !.
 
 % VP - Passive without modifiers.
@@ -324,7 +319,8 @@ nomi_adv([adv(H1)|T1],[adj(H2)|T2]) :- adv_adj(H1,H2), nomi_adv(T1,T2).
 nomi_adv([H|T1],[H|T2]) :- H = pp(_,_,_), nomi_adv(T1,T2).
 
 
-% Determine the n subsets of length n-1 of a list of size n.
+% nsubsets(+X,-R) - Returns the n subsets R of length n-1 of the list X
+% of size n.
 %
 % Example of use:
 % ?- nsubsets([a,b,c],X).
@@ -336,19 +332,4 @@ subset(0,[],[]).
 subset(L,[E|T1],[E|T2]):- succ(PL,L),(PL>0->subset(PL,T1,T2); T2=[]).
 subset(L, [_|T1], T2):- subset(L,T1,T2).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -6,6 +6,13 @@
 %                disambiguation of Natural Logics Grammar.
 %
 %
+% This file aims at defining a top ontology for concepts related to 
+% human insulin production based on BFO. Domain specific concepts 
+% are then created based on the insulin article considered as a 
+% reference. Some relations in the file below have been commented in 
+% order to simplify the model and thus, to increase the efficiency of 
+% the parsing.
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -81,5 +88,4 @@ is_subset_of(enhancement, non_creative).
 % is_subset_of(promotion, enhancement).
 
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

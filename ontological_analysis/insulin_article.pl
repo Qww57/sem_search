@@ -19,7 +19,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % First paragraph.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 sentence(110, [insulin, isa, peptide, hormone, that, is, produced, by, betacell,
 	      of, pancreatic, islet]).
 
@@ -65,7 +70,12 @@ sentence(170, [insulin,
 	      widespread, catabolism]).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % Second paragraph.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 sentence(210, [pancreatic, betacell, is, affected, by, glucose, concentration, in,
 	       blood]).
 
@@ -95,3 +105,7 @@ sentence(241, [stimulation, of, liver, glucose, release, in, blood, by,
 sentence(250, [secretion, of, insulin, into, blood, in_response_to, blood, glucose,
 	       concentration, isa, primary, mechanism, that, keep, within,
 	       narrow, limit, glucose, concentration, in, extracellular, fluid]).
+
+		   
+		   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		   
