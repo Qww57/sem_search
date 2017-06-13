@@ -6,6 +6,10 @@
 %                      to strings (list of words).
 %
 %
+%		  NOT MAINTAINED - SEE REVERSE UNAMBIGUOUS
+%                     FOR PROPERLY WORKING VERSION.
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- ensure_loaded([extended_grammar]).

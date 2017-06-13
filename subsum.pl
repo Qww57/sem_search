@@ -41,15 +41,15 @@ count2(KB,C,N) :- findall(fact(T,C,R,D),member(fact(T,C,R,D),KB),X),
 
 % Returns the list of all concepts of the KB.
 concepts(KB,C) :- setof(X,concept(KB,X),C).
-concept(KB,C) :- member(fact(_,C,_,_),KB).
-concept(KB,C) :- member(fact(_,_,_,C),KB).
-concept(KB,C) :- member(isa(C,_),KB).
-concept(KB,C) :- member(isa(_,C),KB).
+concept(KB,C)  :- member(fact(_,C,_,_),KB).
+concept(KB,C)  :- member(fact(_,_,_,C),KB).
+concept(KB,C)  :- member(isa(C,_),KB).
+concept(KB,C)  :- member(isa(_,C),KB).
 
 % Returns the list Y of complex concepts contained in X.
 % Remark, if word not defined in lexicon, considered as complex term.
 complex([],[]).
-complex([H1|T1],T) :- np(TNP,H1,[]),TNP = np(_,comp([])),complex(T1,T).
+complex([H1|T1],T)     :- np(TNP,H1,[]),TNP = np(_,comp([])),complex(T1,T).
 complex([H|T1],[H|T2]) :- complex(T1,T2).
 
 

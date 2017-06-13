@@ -2,18 +2,27 @@
 %
 % Grammar_tests.pl:
 %
-%	                   Unit tests for extended grammar.
-%		   
+%		      Unit tests for extended grammar.
+%
+%
+%
+% This file aims at testing the basic features that should be handled by
+% Natural Logics grammar.
+%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- ensure_loaded(extended_grammar).
-:- ensure_loaded(basic_lexicon).
+:- ensure_loaded(extended_grammar). % Loading the extended grammar.
+:- ensure_loaded(basic_lexicon).    % Loading the example lexicon.
+
 
 :- begin_tests(grammar).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%    Respect of construction rules for pre and post-modifiers.
+%
+% Respect of construction rules for pre and post-modifiers.
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Use of pre-modifiers: adjectives.
@@ -63,8 +72,11 @@ test(mod1) :- np(_,[pancreas,s,synchronous,glucose,production,of,glucose,and,
 		  that,produce,glucose],[]).
 test(mod2, fail) :- np(_,[pancreas,s,glucose,synchronous,production,of,glucose],[]).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%     Respect of syntactic rules related to verb usage.
+%
+% Respect of syntactic rules related to verb usage.
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Respect of transitivity in the main proposition.
@@ -101,8 +113,11 @@ test(adv_4, fail) :- % Wrong order of adverbs and adverbial PPs
 test(adv_5, fail) :- % Wrong position of the adverb.
 	p([_],[betacell,synchronously,produce,insulin],[]).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%     Respect of syntactic rules related to proposition extensions.
+%
+% Respect of syntactic rules related to proposition extensions.
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Respect of plural readings.
@@ -115,6 +130,7 @@ test(plural_3, Z==4) :- p(X,[alphacell,and,betacell,produce,insulin,and,glucose]
 test(plural_4, fail) :- p(_,[alphacell,or,betacell,produce,insulin],[]). % Not handled.
 test(plural_5, fail) :- p(_,[alphacell,produce,insulin,or,glucose],[]). % No supremum.
 test(plural_6) :- p([_],[insulin,is,produced,by,alphacell,or,betacell],[]). % Supremum.
+
 
 :- end_tests(grammar).
 

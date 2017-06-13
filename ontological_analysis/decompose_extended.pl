@@ -5,6 +5,10 @@
 %         Generate a graph from natural logics proposition.
 %
 %
+%	       NOT MAINTAINED - SEE DECOMPOSE UNAMBIGUOUS
+%                     FOR PROPERLY WORKING VERSION.
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- [extended_grammar].     % Loading the syntactic grammar.
@@ -252,8 +256,8 @@ decompose_subnp(_,[],[]).
 decompose_subnp(N,[HL|TL],R):-
 	TNP = np(n(N), mod(HL), ext([])), decompose_np(TNP,_,R1), !,
 	decompose_subnp(N,TL,R2), append(R1,R2,R).
-	
-	
+
+
 % Create n ISA relations based on a list of ISA relations: tree form
 create_n_isa(_,[],[]).
 create_n_isa(SNP,[H1],[H2]) :-  H2 = isa(SNP, H1).

@@ -18,10 +18,10 @@
 lex(as,             preposition).
 lex(at,             preposition).
 lex(by,		    preposition).
+lex(from,           preposition).
 lex(in,		    preposition).
 lex(in_response_to, preposition).
 lex(into,           preposition).
-lex(from,           preposition).
 lex(of,	            preposition).
 lex(within,	    preposition).
 
@@ -99,8 +99,6 @@ lex(produce,    trans, event,   produced,    const([quality], [entity])). % Abst
 lex(promote,    trans, event,   promoted,    const([process, quality,
 						    body_part, body_fluid],
 						   [process])).
-lex(stop,	trans, event,   stopped,     const([process, body_part],
-						   [process, state])).
 lex(release,	trans, event,   released,    const([body_part, process],
 						   [body_fluid])).
 lex(regulate,   trans, event,   regulated,   const([process, quality,
@@ -110,6 +108,8 @@ lex(secrete,    trans, event,   secreted,    const([body_part, creation],
 						   [body_fluid])).
 lex(stimulate,  trans, event,   stimulated,  const([process, quality,
 						    body_part, body_fluid],
+						   [process, state])).
+lex(stop,	trans, event,   stopped,     const([process, body_part],
 						   [process, state])).
 lex(synthesize, trans, event,   synthesized, const([process],
 						   [body_fluid])).
@@ -149,9 +149,10 @@ lex(powerful,      adj, subs,  predi, const([_])).
 lex(small,         adj, subs,  predi, const([_])).
 lex(strong,        adj, subs,  predi, const([_])).
 lex(widespread,    adj, subs,  predi, const([_])).
+lex(primary,	   adj, subs, non_predi, const([_])).
 
-lex(opposite,      adj, non_subs, predi,     const([process, quality])).
-lex(primary,	   adj, non_subs, non_predi, const([_])).
+lex(opposite,      adj, non_subs, predi, const([process, quality])).
+lex(former,        adj, non_subs, predi, const([_])).
 
 
 % Lexicon: adverbs

@@ -6,7 +6,18 @@
 %                          article on insulin.
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file contains Natural Logics propositions taken from the two
+% first paragraphs of the wikipedia article on insulin (version of
+% the 16/11/2016). Each proposition example has an ID composed of
+% three digits. The first one refers to the paragraph (1 or 2). The
+% second refers to the index of the sentence in the original paragraph.
+% The third one is used to distinguished sub-propositions when the
+% original sentence has been split in simpler propositions.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % First paragraph.
 sentence(110, [insulin, isa, peptide, hormone, that, is, produced, by, betacell,

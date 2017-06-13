@@ -87,7 +87,7 @@ decompose_np(TNP, NewTNP, [H|T]) :- TNP = np(n(N), mod(M), ext([pc(R,TNP2)])),
 	R = verb(active(V), mod([])), decompose_np(TNP2, NewTNP2, T0),
 	NTNP = np(n(N), mod(M), ext([])), decompose_np(NTNP, NewTNP, T1),
 	reverse_np(NewTNP, NewSNP), reverse_np(NewTNP2, NewSNP2),
-	H = fact(def, NewSNP,[V], NewSNP2),
+	H = fact(pc, NewSNP,[V], NewSNP2, definition),
 	append(T0, T1, T).
 
 % Active PC-isa with modifiers - TODO.
@@ -97,38 +97,52 @@ decompose_np(TNP, NewTNP, [H|T]) :- TNP = np(n(N), mod(M), ext([pc(R,TNP2)])),
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% NOT THE MOST EFFICIENT HERE, BUT MORE MODULAR
+
 % VP - Active without modifiers.
 % decompose_vp(+TNP1, +R, +TNP2, -NewTNP2, -T).
 decompose_vp(TNP1, R, TNP2, NewTNP2, [H|T]) :- R = verb(active(V), mod([])),
+	% write('Active VP without modifiers: '), write(V), nl,
 	decompose_np(TNP2, NewTNP2, T),
-	reverse_np(TNP1, SNP1), reverse_np(NewTNP2,SNP2),
-	H = fact(def,SNP1,[V],SNP2), !.
+	TNP1 = np(n(N), mod(_), ext([])),
+	NewTNP1 = np(n(N), mod([rc(R, NewTNP2)]), ext([])),
+	reverse_np(NewTNP1, SNP1), reverse_np(NewTNP2,SNP2),
+	write(SNP1),
+	H = fact(rc,SNP1,[V],SNP2,definition), !.
 
 % VP - Active with modifiers.
 decompose_vp(TNP1, R, TNP2, NewTNP2,[H1,H2|T]) :- R = verb(active(V), mod(M1)),
+	% write('Active VP with modifiers: '), write(V), nl,
 	nomi(N,V), nomi_adv(M1,M2), % Checking for nominalization.
 	decompose_np(TNP2,NewTNP2,T1),
-	NewTNP1 = np(n(N), mod([]), ext([])),
+	TNP1 = np(n(N1), mod([_]), ext([])),
+	NewTNP1 = np(n(N1), mod([]), ext([])),
 	TrN = np(n(N),mod([pp(of,[patient],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
 	decompose_np1(TrN,NewTrN,T2), append(T1,T2,T),
-	reverse_np(TNP1, SNP1), reverse_np(TNP2, SNP2), reverse_np(NewTrN,SrN),
-	H1 = fact(def,SNP1,[V],SNP2), H2 = attach(H1,SrN), !.
+	reverse_np(NewTNP1, SNP1), reverse_np(NewTNP2, SNP2), reverse_np(NewTrN,SrN),
+	write(SrN), nl,
+	H1 = fact(rc,SNP1,[V],SNP2,definition), H2 = attach(H1,SrN), !.
 
 % VP - Passive without modifiers.
 decompose_vp(TNP1, R, TNP2, NewTNP2, [H|T]) :- R = verb(passive(V), mod([])),
+	% write('Passive VP without modifiers: '), write(V), nl,
 	decompose_np(TNP2, NewTNP2, T),
-	reverse_np(TNP1,SNP1), reverse_np(NewTNP2,SNP2),
-	H = fact(def,SNP1,[is,V,by],SNP2), !.
+	TNP1 = np(n(N), mod(_), ext([])),
+	NewTNP1 = np(n(N), mod([rc(R, NewTNP2)]), ext([])),
+	reverse_np(NewTNP1,SNP1), reverse_np(NewTNP2,SNP2),
+	H = fact(rc,SNP1,[is,V,by],SNP2,definition), !.
 
 % VP - Passive with modifiers.
 decompose_vp(TNP1, R, TNP2, NewTNP2, [H1,H2|T]) :- R = verb(passive(V), mod(M1)),
+	% write('Passive VP with modifiers: '), write(V), nl,
 	lex(V1,_,_,V,_), nomi(N,V1), nomi_adv(M1,M2), % Checking for nominalization.
 	decompose_np(TNP2, NewTNP2, T1),
-	NewTNP1 = np(n(N), mod([]), ext([])),
+	TNP1 = np(n(N1), mod([_]), ext([])),
+	NewTNP1 = np(n(N1), mod([]), ext([])),
 	TrN = np(n(N),mod([pp(of,[patient],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
 	decompose_np(TrN,NewTrN,T2), append(T1,T2,T),
-	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2), reverse_np(NewTrN,SrN),
-	H1 = fact(def,SNP1,[is,V,by],SNP2), H2 = attach(H1,SrN), !.
+	reverse_np(NewTNP1,SNP1), reverse_np(NewTNP2,SNP2), reverse_np(NewTrN,SrN),
+	H1 = fact(rc,SNP1,[is,V,by],SNP2,definition), H2 = attach(H1,SrN), !.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -138,7 +152,7 @@ decompose_np1(TNP, NewTNP, []) :- TNP = np(n(_), mod([]), ext([])),
 	% write('Basic case: '), write(TNP), nl,
 	NewTNP = TNP, !.
 
-% TODO - With only one modifier - RC.
+% With only one modifier - RC.
 decompose_np1(TNP, NewTNP, [H|T]) :- TNP = np(n(N), mod([rc(V,TNP2)]), ext([])),
 	% nl, write('Decomposing as leaf RC:'), write(TNP), nl,
 	decompose_vp(TNP, V, TNP2, NewTNP2, T),
@@ -149,7 +163,7 @@ decompose_np1(TNP, NewTNP, [H|T]) :- TNP = np(n(N), mod([rc(V,TNP2)]), ext([])),
 % With only one modifier - PP.
 decompose_np1(TNP, NewTNP, [H1,H2|T]) :- TNP = np(n(N),mod([pp(PREP,[R],TNP2)]),ext([])),
 	% nl, write('Decomposing as leaf PP: '), write(TNP), nl,
-	decompose_np(TNP2, NewTNP2, T), % np(NewTNP2, _, NewSNP2, []),
+	decompose_np(TNP2, NewTNP2, T),
 	NewTNP = np(n(N), mod([pp(PREP,[R],NewTNP2)]), ext([])),
 	reverse_np(NewTNP, NewSNP), reverse_np(TNP2, NewSNP2),
 	H1 = fact(prep, NewSNP, PREP, NewSNP2, R), H2 = isa(NewSNP, [N]), !.
@@ -159,15 +173,15 @@ decompose_np1(TNP, NewTNP, [H1,H2]) :- TNP = np(n(N), mod([cn([R],n(N2))]), ext(
 	% nl, write('Decomposing as leaf CN: '), write(TNP), nl,
 	NewTNP = TNP,
 	reverse_np(TNP, NewSNP),
-	H1 = isa(NewSNP,[N]), H2 = fact(cn, NewSNP, [R], [N2]), !.
+	H1 = isa(NewSNP,[N]), H2 = fact(cn, NewSNP, none, [N2], [R]), !.
 
 % With only one modifier - GER.
 decompose_np1(TNP, NewTNP, [H1,H2|T]) :- TNP = np(n(N), mod([ger(R,TNP2)]), ext([])),
 	% nl, write('Decomposing as leaf GER: '), write(TNP), nl,
-	decompose_np(TNP2, NewTNP2, T), % np(NewTNP2, _,NewSNP2, []),
+	decompose_np(TNP2, NewTNP2, T),
 	NewTNP = np(n(N), mod([ger(R,NewTNP2)]), ext([])), !,
-	reverse_np(NewTNP, NewSNP), reverse(NewTNP2, NewSNP2),
-	H1 = fact(ger, NewSNP, R, NewSNP2), H2 = isa(NewSNP,[N]), !.
+	reverse_np(NewTNP, NewSNP), reverse_np(NewTNP2, NewSNP2),
+	H1 = fact(ger, NewSNP, none, NewSNP2, R), H2 = isa(NewSNP,[N]), !.
 
 % With only one modifier - ADJ - intersective.
 decompose_np1(TNP, NewTNP, [H1,H2]) :- TNP = np(n(N), mod([adj(A)]), ext([])),
@@ -230,7 +244,7 @@ observation(TNP1,verb(active(isa),mod([])),TNP2,[H]) :-
 observation(TNP1,verb(active(V), mod([])),TNP2,[H]) :- % Without prepositional term.
 	% nl, write('Observation active without modifiers'), nl,
 	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2),
-	H = fact(observation,SNP1,[V],SNP2), !. % Create observation.
+	H = fact(prop,SNP1,[V],SNP2, observation), !. % Create observation.
 observation(TNP1,R,TNP2,[H1,H2|T]) :- % With prepositional terms.
 	R = verb(active(V), mod(M1)), V \= isa,
 	% nl, write('Observation active with modifiers'), nl, !,
@@ -238,7 +252,7 @@ observation(TNP1,R,TNP2,[H1,H2|T]) :- % With prepositional terms.
 	TrN = np(n(N), mod([pp(of,[patient],TNP2), pp(by,[agent],TNP1)|M2]), ext([])), !,
 	decompose_np1(TrN,NewTrN,T),
 	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2), reverse_np(NewTrN,SrN),
-	H1 = fact(observation,SNP1,[V],SNP2), H2 = attach(H1,SrN),!.
+	H1 = fact(prop,SNP1,[V],SNP2, observation), H2 = attach(H1,SrN),!.
 
 % Case: Passive verb with agent.
 observation(TNP1,verb(passive(V), mod([])), TNP2,[H]) :- % Without prepositional term.
@@ -250,7 +264,7 @@ observation(TNP1,R,TNP2,[H1,H2|T]) :- % With prepositional terms.
 	TrN = np(n(N), mod([pp(of,[result],TNP1), pp(by,[agent],TNP2)|M2]), ext([])),
 	decompose_np(TrN,NewTrN,T),
 	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2), reverse_np(NewTrN,SrN),
-	H1 = fact(observation,SNP1,[is,V,by],SNP2), H2 = attach(H1,SrN), !.
+	H1 = fact(prop,SNP1,[is,V,by],SNP2, observation), H2 = attach(H1,SrN), !.
 
 % Default case.
 observation(_,_,_,[]) :- nl, write('Default observation.'), nl.
@@ -258,14 +272,14 @@ observation(_,_,_,[]) :- nl, write('Default observation.'), nl.
 % Case: Passive verb without agent.
 observation(TNP1,verb(passive(V), mod([])),[H]) :- % Without prepositional term.
 	reverse_np(TNP1,SNP1),
-	H = fact(observation,SNP1,[is,V,by],[entity]), !. % Create observation.
+	H = fact(prop,SNP1,[is,V,by],[entity],observation), !. % Create observation.
 observation(TNP1,R,[H1,H2|T]) :- % With prepositional terms.
 	R = verb(passive(V), mod(M1)),
 	lex(V1,_,_,V,_), nomi(N,V1), nomi_adv(M1,M2),
 	TrN = np(n(N), mod([pp(of,[result],TNP1)|M2]), ext([])),
 	decompose_np(TrN,NewTrN,T),
 	reverse_np(TNP1, SNP1), reverse_np(NewTrN,SrN),
-	H1 = fact(observation,SNP1,[is,V,by],[entity]), H2 = attach(H1,SrN), !.
+	H1 = fact(prop,SNP1,[is,V,by],[entity], observation), H2 = attach(H1,SrN), !.
 
 % Default case.
 observation(_,_,[]) :- nl, write('Default observation.'), nl.

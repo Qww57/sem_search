@@ -27,7 +27,7 @@ lex(concentration, noun).
 lex(behaviour, noun).
 
 % Lexicon: verbs
-% Distinction between 'effect, copular and stat'
+% Distinction between 'effect, copular and state'
 lex(smile, intrans, effect).
 lex(isa, trans, copular, _).
 lex(remain, trans, copular, _).

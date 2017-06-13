@@ -6,6 +6,12 @@
 %	                    article on insulin.
 %
 %
+%
+% This file aims at defining test cases for Natural Logics parser,
+% proposition decomposition and graph search using ontological analysis
+% of concepts.
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -13,6 +19,8 @@
 :- ensure_loaded(insulin_onthology_lexicon). % Loading the lexicon.
 :- ensure_loaded(unambiguous_grammar).	     % Loading the grammar.
 :- ensure_loaded(decompose_unambiguous).     % Loading decomposition algo.
+:- ensure_loaded(infer_unambiguous).	     % Loading inference rules.
+:- ensure_loaded(subsum_unambiguous).        % Loading subsumption rules.
 :- ensure_loaded(search).	             % Loading search algorithm.
 
 
@@ -29,18 +37,33 @@ read_article(R) :- setof(Y,is_sentence(Y),IDs), read_article(IDs,X), filter(X,R)
 read_article([],[]).
 read_article([H|T], R) :- read_article(T, R0), decompose_sentence(H,R1), append(R0,R1,R).
 
-write_kb(_,[]).
-write_kb(Stream,[H|T]) :- write(Stream, '-> '), write(Stream,H), nl(Stream),
-	write_kb(Stream,T).
-
 save_as_txt(KB, Title) :-
-    open('first_paragraph.txt',write, Stream), length(KB,L),
-    write(Stream, '-------------------- '),
-    write(Stream, Title), write(Stream, ' --------------------'),
-    nl(Stream), write(Stream, L), write(Stream, ' relations'),
-    nl(Stream), nl(Stream), write_kb(Stream,KB),
+    open(Title,write, Stream),
+    write_kb(Stream,KB),
     close(Stream).
 
+write_kb(_,[]).
+write_kb(Stream,[H|T]) :- write(Stream,H), write(Stream,'.'), nl(Stream),
+	write_kb(Stream,T).
+
+read_from_text(Title, KB):-
+    open(Title, read, Str),
+    read_file(Str,X), list_butlast(X,KB),
+    close(Str).
+
+read_file(Stream,[]) :- at_end_of_stream(Stream).
+read_file(Stream,[X|L]) :- \+ at_end_of_stream(Stream),
+    read(Stream,X), read_file(Stream,L).
+
+list_butlast([X|Xs], Ys) :-                 % use auxiliary predicate ...
+   list_butlast_prev(Xs, Ys, X).            % ... which lags behind by one item
+
+list_butlast_prev([], [], _).
+list_butlast_prev([X1|Xs], [X0|Ys], X0) :-
+   list_butlast_prev(Xs, Ys, X1).           % lag behind by one
+
+test_ranks :- read_from_text('inferences.txt',KB), allRank(KB,Z),
+	concepts_of_rank(Z,0,L), !, test_rank(KB,L).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
