@@ -14,8 +14,8 @@
 
 
 :- ensure_loaded(insulin_article).     % Loading the sentences to test.
-:- ensure_loaded(extended_grammar).    % Loading the extended grammar.
-:- include(insulin_lexicon).           % Loading the dedicated lexicon.
+:- ensure_loaded(grammar_ambiguous).   % Loading the extended grammar.
+:- include(lexicon_insulin_ambiguous). % Loading the dedicated lexicon.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

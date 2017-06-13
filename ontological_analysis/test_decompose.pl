@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Decompose_tests.pl:
+% test_decompose.pl:
 %
 %		      Unit tests for extended grammar.
 %
@@ -13,8 +13,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-:- ensure_loaded(decompose_unambiguous).
-:- ensure_loaded(insulin_onthology_lexicon).
+:- ensure_loaded(decompose).
+:- ensure_loaded(lexicon_insulin).
 
 
 

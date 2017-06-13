@@ -1,15 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Subsum.pl:
+% subsum.pl:
 %
 %      Defining subsumption rules working over our facts definition.
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- ensure_loaded([unambiguous_grammar]).
-:- ensure_loaded([reverse_unambiguous]).
-:- ensure_loaded([infer_unambiguous]).
+:- ensure_loaded([grammar]).
+:- ensure_loaded([reverse_grammar]).
+:- ensure_loaded([infer]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Onthology_skeleton.pl:
+% ontology_skeleton.pl:
 %
 %                   Onthology skleleton for onthological
 %                disambiguation of Natural Logics Grammar.

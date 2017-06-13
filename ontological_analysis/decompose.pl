@@ -1,18 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Decompose_unambiguous.pl:
+% decompose.pl:
 %
 %         Generate a graph from natural logics proposition.
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Since trees are different, add extra information in the knowledge.
-
-:- [unambiguous_grammar].		 % Loading the syntactic grammar.
-:- ensure_loaded([reverse_unambiguous]). % Loading helper functions to unparse a tree.
-
-
+%
 % NOT DO PARSING UNPARSING HERE, GIVE TREE TO OBSERVATION.
 % TODO - handle prepositional verb in decomposition. [NO]
 % TODO - handle predicate adjectives in decomposition. [NO]
@@ -22,6 +15,14 @@
 % TODO - should deal only with trees, except at the very end when
 % creating relations -> goes back to string, otherwise creating
 % errors due to ambiguities by parsing unparsing again and again.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+:- [grammar].		             % Loading the syntactic grammar.
+:- ensure_loaded([reverse_grammar]). % Functions to unparse trees.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

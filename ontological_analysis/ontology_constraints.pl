@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Onthological_constraints.pl:
+% ontology_constraints.pl:
 %
 %               Set of rules and affinities for onthological
 %                disambiguation of Natural Logics Grammar.
@@ -8,7 +8,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- ensure_loaded([onthology_skeleton]).	% Loading the is_subset_of predicate.
+:- ensure_loaded([ontology_skeleton]).	% Loading the is_subset_of predicate.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Infer_unambiguous.pl:
+% infer.pl:
 %
 %      Defining inference rules working over our facts definition.
 %
@@ -9,7 +9,6 @@
 
 :- dynamic fact/4.
 :- dynamic fact/5.
-:- discontiguous inf_rule/6.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

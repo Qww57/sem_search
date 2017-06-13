@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Insulin_lexicon.pl:
+% lexicon_insulin.pl:
 %
 %	       Dedicated lexicon for the first paragraph of
 %		   the wikipedia article on insulin.

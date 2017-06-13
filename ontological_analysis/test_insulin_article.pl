@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% test_insulin_with_ontology.pl:
+% test_insulin_article.pl:
 %
 %	  Test algorithms on the first paragraph of wikipedia's
 %	                    article on insulin.
@@ -15,13 +15,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-:- ensure_loaded(insulin_article).           % Loading sentences to test.
-:- ensure_loaded(insulin_onthology_lexicon). % Loading the lexicon.
-:- ensure_loaded(unambiguous_grammar).	     % Loading the grammar.
-:- ensure_loaded(decompose_unambiguous).     % Loading decomposition algo.
-:- ensure_loaded(infer_unambiguous).	     % Loading inference rules.
-:- ensure_loaded(subsum_unambiguous).        % Loading subsumption rules.
-:- ensure_loaded(search).	             % Loading search algorithm.
+:- ensure_loaded(insulin_article).   % Loading sentences to test.
+:- ensure_loaded(lexicon_insulin).   % Loading the lexicon.
+:- ensure_loaded(grammar).	     % Loading the grammar.
+:- ensure_loaded(decompose).         % Loading decomposition algo.
+:- ensure_loaded(infer).	     % Loading inference rules.
+:- ensure_loaded(subsum).            % Loading subsumption rules.
+:- ensure_loaded(search).	     % Loading search algorithm.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

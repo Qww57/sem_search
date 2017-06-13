@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Unambiguous_grammar.pl:
+% grammar.pl:
 %
 %     Disambiguated version of Extended grammar for Natural Logics,
 %	             based on onthological analysis.
@@ -9,9 +9,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-:- [onthology_skeleton].	   % Loading the ontology skeleton.
-:- [onthological_constraints].	   % Loading the domain constraints.
-:- [insulin_onthology_lexicon].    % Loading the dedicated lexicon.
+:- [ontology_skeleton].	        % Loading the ontology skeleton.
+:- [ontology_constraints].	% Loading the domain constraints.
+:- [lexicon_insulin].	        % Loading the dedicated lexicon.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,7 +38,6 @@
 %
 % Passive RC without agent refused.
 %
-% NOT IMPLEMENTED ON PRE MODIFIERS FOR NOW.
 % MISSING DOUBLE DISTRIBUTIVE.
 % MISSING PREPOSITIONAL VERB.
 %

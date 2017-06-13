@@ -12,8 +12,8 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- ensure_loaded(extended_grammar). % Loading the extended grammar.
-:- ensure_loaded(basic_lexicon).    % Loading the example lexicon.
+:- ensure_loaded(grammar_ambiguous).       % Loading the extended grammar.
+:- ensure_loaded(lexicon_basic_ambiguous). % Loading the example lexicon.
 
 
 :- begin_tests(grammar).
