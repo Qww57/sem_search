@@ -46,6 +46,7 @@ lex(glucagon,        noun, body_fluid).
 lex(gluconeogenesis, noun, creation).
 lex(glucose,	     noun, body_fluid).
 lex(glycogen,	     noun, body_fluid).
+lex(glycogenesis,    noun, creation).
 lex(glycogenolysis,  noun, creation).
 lex(hormone,         noun, protein).
 lex(impact,          noun, enhancement).
@@ -53,6 +54,7 @@ lex(insulin,         noun, protein).
 lex(islet,           noun, body_part).
 lex(keeping,         noun, process).
 lex(limit,	     noun, quantity).
+lex(lipogenesis,     noun, creation).
 lex(liver,           noun, organ).
 lex(manner,	     noun, quality).
 lex(mechanism,       noun, process).
@@ -134,6 +136,7 @@ nomi(taking,	  take).
 
 
 % Lexicon: adjectives:
+lex(absorbed,      adj, inter, predi, const([body_fluid])).
 lex(anabolic,      adj, inter, predi, const([body_fluid, body_part])).
 lex(extracellular, adj, inter, predi, const([body_fluid, body_part])).
 lex(circulating,   adj, inter, predi, const([_])).
@@ -170,3 +173,11 @@ adv_adj(strongly,   strong).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+

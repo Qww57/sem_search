@@ -109,14 +109,16 @@ decompose_vp(TNP1, R, TNP2, NewTNP2, [H|T]) :- R = verb(active(V), mod([])),
 
 % VP - Active with modifiers.
 decompose_vp(TNP1, R, TNP2, NewTNP2,[H1,H2|T]) :- R = verb(active(V), mod(M1)),
-	% write('Active VP with modifiers: '), write(V), nl,
+	% write('Active VP with modifiers: '), write(V), write(M1), nl,
 	nomi(N,V), nomi_adv(M1,M2), % Checking for nominalization.
 	decompose_np(TNP2,NewTNP2,T1),
 	TNP1 = np(n(N1), mod([_]), ext([])),
 	NewTNP1 = np(n(N1), mod([]), ext([])),
-	TrN = np(n(N),mod([pp(of,[patient],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
+	choice_of_relation(N, NewTNP2, OF),
+	TrN = np(n(N),mod([pp(of,[OF],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
 	decompose_np1(TrN,NewTrN,T2), append(T1,T2,T),
-	reverse_np(NewTNP1, SNP1), reverse_np(NewTNP2, SNP2), reverse_np(NewTrN,SrN),
+	reverse_np(NewTNP1, SNP1), reverse_np(NewTNP2, SNP2),
+	reverse_np(NewTrN,SrN),
 	H1 = fact(rc,SNP1,[V],SNP2,definition), H2 = attach(H1,SrN), !.
 
 % VP - Passive without modifiers.
@@ -135,11 +137,22 @@ decompose_vp(TNP1, R, TNP2, NewTNP2, [H1,H2|T]) :- R = verb(passive(V), mod(M1))
 	decompose_np(TNP2, NewTNP2, T1),
 	TNP1 = np(n(N1), mod([_]), ext([])),
 	NewTNP1 = np(n(N1), mod([]), ext([])),
-	TrN = np(n(N),mod([pp(of,[patient],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
+	choice_of_relation(N, NewTNP2, OF),
+	TrN = np(n(N),mod([pp(of,[OF],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
 	decompose_np(TrN,NewTrN,T2), append(T1,T2,T),
-	reverse_np(NewTNP1,SNP1), reverse_np(NewTNP2,SNP2), reverse_np(NewTrN,SrN),
+	reverse_np(NewTNP1,SNP1), reverse_np(NewTNP2,SNP2),
+	reverse_np(NewTrN,SrN),
 	H1 = fact(rc,SNP1,[is,V,by],SNP2,definition), H2 = attach(H1,SrN), !.
 
+
+% This step is important, because if the relation is not chosen
+% properly, the parsing might fail later on.
+choice_of_relation(N1,NewTNP2,OF) :-
+	% nl, write('Object relation for '), write(N1),
+	% write(' and '), write(NewTNP2), nl,
+	(lex(N1, noun, S1), NewTNP2 = np(n(N2), mod(_), ext(_)), lex(N2, noun, S2),
+	 aff(of, L1, L2, R), isa(S1,L1), isa(S2,L2)
+	-> OF = R ;  write('Default of relation'), OF = patient).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -245,7 +258,8 @@ observation(TNP1,R,TNP2,[H1,H2|T]) :- % With prepositional terms.
 	R = verb(active(V), mod(M1)), V \= isa,
 	% nl, write('Observation active with modifiers'), nl, !,
 	nomi(N,V), nomi_adv(M1,M2),
-	TrN = np(n(N), mod([pp(of,[patient],TNP2), pp(by,[agent],TNP1)|M2]), ext([])), !,
+	choice_of_relation(N,TNP2,OF),
+	TrN = np(n(N), mod([pp(of,[OF],TNP2), pp(by,[agent],TNP1)|M2]), ext([])), !,
 	decompose_np1(TrN,NewTrN,T),
 	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2), reverse_np(NewTrN,SrN),
 	H1 = fact(prop,SNP1,[V],SNP2, observation), H2 = attach(H1,SrN),!.
@@ -257,7 +271,8 @@ observation(TNP1,verb(passive(V), mod([])), TNP2,[H]) :- % Without prepositional
 observation(TNP1,R,TNP2,[H1,H2|T]) :- % With prepositional terms.
 	R = verb(passive(V), mod(M1)),
 	lex(V1,_,_,V,_), nomi(N,V1), nomi_adv(M1,M2),
-	TrN = np(n(N), mod([pp(of,[result],TNP1), pp(by,[agent],TNP2)|M2]), ext([])),
+	choice_of_relation(N,TNP1,OF),
+	TrN = np(n(N), mod([pp(of,[OF],TNP1), pp(by,[agent],TNP2)|M2]), ext([])),
 	decompose_np(TrN,NewTrN,T),
 	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2), reverse_np(NewTrN,SrN),
 	H1 = fact(prop,SNP1,[is,V,by],SNP2, observation), H2 = attach(H1,SrN), !.
@@ -272,7 +287,8 @@ observation(TNP1,verb(passive(V), mod([])),[H]) :- % Without prepositional term.
 observation(TNP1,R,[H1,H2|T]) :- % With prepositional terms.
 	R = verb(passive(V), mod(M1)),
 	lex(V1,_,_,V,_), nomi(N,V1), nomi_adv(M1,M2),
-	TrN = np(n(N), mod([pp(of,[result],TNP1)|M2]), ext([])),
+	choice_of_relation(N,TNP1,OF),
+	TrN = np(n(N), mod([pp(of,[OF],TNP1)|M2]), ext([])),
 	decompose_np(TrN,NewTrN,T),
 	reverse_np(TNP1, SNP1), reverse_np(NewTrN,SrN),
 	H1 = fact(prop,SNP1,[is,V,by],[entity], observation), H2 = attach(H1,SrN), !.

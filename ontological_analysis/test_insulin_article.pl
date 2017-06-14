@@ -89,6 +89,8 @@ test(sentence_120) :- sentence(120,X), p(_,X,[]).
 test(sentence_121) :- sentence(121,X), p(_,X,[]).
 test(sentence_122) :- sentence(122,X), p(_,X,[]).
 test(sentence_130) :- sentence(130,X), p(_,X,[]).
+test(sentence_131) :- sentence(131,X), p(_,X,[]).
+test(sentence_132) :- sentence(132,X), p(_,X,[]).
 test(sentence_140) :- sentence(140,X), p(_,X,[]).
 test(sentence_141) :- sentence(141,X), p(_,X,[]).
 test(sentence_150) :- sentence(150,X), p(_,X,[]).
@@ -113,6 +115,8 @@ test(decompose_120) :- sentence(120,X), !, decompose(X,_).
 test(decompose_121) :- sentence(121,X), !, decompose(X,_).
 test(decompose_122) :- sentence(122,X), !, decompose(X,_).
 test(decompose_130) :- sentence(130,X), !, decompose(X,_).
+test(decompose_131) :- sentence(131,X), !, decompose(X,_).
+test(decompose_132) :- sentence(132,X), !, decompose(X,_).
 test(decompose_140) :- sentence(140,X), !, decompose(X,_).
 test(decompose_141) :- sentence(141,X), !, decompose(X,_).
 test(decompose_150) :- sentence(150,X), !, decompose(X,_).

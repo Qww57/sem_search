@@ -43,10 +43,16 @@ sentence(122, [insulin,
 	      into, fat, into, liver, and, into, skeletal, muscle,
 	      metabolism, of, protein]).
 
-sentence(130, [glucose,
+sentence(130, [absorbed, glucose,
 	      is, converted, in, fat, ',', in, liver, and, in, skeletal, muscle,
-	      cell, into,
-	      glycogen, and, into, fat, ',', which, isa, triglyceride, ',']).
+	      cell, into, glycogen, by, glycogenesis]).
+
+sentence(131, [absorbed, glucose,
+	      is, converted, in, fat, ',', in, liver, and, in, skeletal, muscle,
+	      cell, into, fat, ',', which, isa, triglyceride, ',', by, lipogenesis]).
+
+sentence(132, [absorbed, glucose,
+	      is, converted, in, liver, into, glycogen, and, into, fat]).
 
 sentence(140, [glucose, production, by, liver,
 	      is, inhibited, by,
@@ -79,7 +85,8 @@ sentence(170, [insulin,
 sentence(210, [pancreatic, betacell, is, affected, by, glucose, concentration, in,
 	       blood]).
 
-sentence(220, [betacell, secrete, at, high, glucose, concentration, insulin]).
+sentence(220, [betacell, secrete, at, high, glucose, concentration, into, blood,
+	       insulin]).
 
 sentence(221, [betacell, stop, at, low, glucose, concentration, insulin, secretion,
 	       into, general, circulation]).
@@ -106,6 +113,17 @@ sentence(250, [secretion, of, insulin, into, blood, in_response_to, blood, gluco
 	       concentration, isa, primary, mechanism, that, keep, within,
 	       narrow, limit, glucose, concentration, in, extracellular, fluid]).
 
-		   
-		   
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		   
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+

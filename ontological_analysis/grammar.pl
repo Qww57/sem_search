@@ -151,8 +151,8 @@ rterm1(active(V),X,T,const(S,C)) --> [V], {lex(V, X, T, _, const(S,C))}.
 
 
 % Adverbial PPs.
-pps([],_)	        -->  {true}. % Potentially no adverbial PPs.
-pps([pp(P,[R],N)],V0)    -->  prep(P), np(N, const(S1)),
+pps([],_)		-->  {true}. % Potentially no adverbial PPs.
+pps([pp(P,[R],N)],V0)   -->  prep(P), np(N, const(S1)),
 	{correct(V0,V), nomi(N0,V), lex(N0,noun,S0),
 	 aff(P,SS0,SS1,R), isa(S0,SS0), isa(S1,SS1)}.
 pps([pp(P,[R],N)|T],V0) -->  prep(P), np(N, const(S1)), align(_), pps(T, V0),

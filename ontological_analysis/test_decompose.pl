@@ -14,7 +14,7 @@
 
 
 :- ensure_loaded(decompose).
-:- ensure_loaded(lexicon_insulin).
+:- [lexicon_insulin].
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -149,7 +149,6 @@ test(basic_modifiers_multiple) :-
 
 
 % One PC - isa.
-
 test(extension_pc_isa_simple) :- % Should remove the extension when treated.
 	decompose([pancreas, produce, insulin,',',which,isa,hormone,','],R),
 	E = [fact(prop, [pancreas], [produce], [insulin], observation),
@@ -179,7 +178,7 @@ test(extension_pc_isa_in_rc_modified) :- % Should remove the extension when trea
 	     attach(fact(rc, [pancreas], [produce], [fat], definition),
 		    [production, of, fat, by, pancreas, in, liver]),
 	     isa([fat], [triglyceride]),
-	     fact(prep, [production, of, fat], of, [fat], patient),
+	     fact(prep, [production, of, fat], of, [fat], result),
 	     isa([production, of, fat], [production]),
 	     fact(prep, [production, by, pancreas], by, [pancreas], agent),
 	     isa([production, by, pancreas], [production]),
@@ -193,8 +192,8 @@ test(extension_pc_isa_in_rc_modified) :- % Should remove the extension when trea
 		 [production, of, fat, in, liver]),
 	     isa([production, by, pancreas, in, liver],
 		 [production, by, pancreas]),
-	     isa([production, by, pancreas, in, liver],
-		 [production, in, liver]),
+	     isa([production, by, pancreas, in, liver], [
+		     production, in, liver]),
 	     isa([production, of, fat, by, pancreas],
 		 [production, by, pancreas]),
 	     isa([production, of, fat, by, pancreas],
@@ -202,39 +201,7 @@ test(extension_pc_isa_in_rc_modified) :- % Should remove the extension when trea
 	     isa([production, of, fat, in, liver],
 		 [production, in, liver]),
 	     isa([production, of, fat, in, liver],
-		 [production, of, fat])],
-
-	M = [fact(prop, [pancreas, that, produce, in, liver, fat],
-		  [regulate], [production], observation),
-	     isa([pancreas, that, produce, in, liver, fat], [pancreas]),
-	     fact(rc, [pancreas], [produce], [fat], definition),
-	     attach(fact(rc, [pancreas], [produce], [fat], definition),
-		    [production, of, fat, and, by, pancreas, and, in, liver]),
-	     isa([fat], [triglyceride]),
-	     fact(prep, [production, of, fat], of, [fat], patient),
-	     isa([production, of, fat], [production]),
-	     fact(prep, [production, by, pancreas], by, [pancreas], agent),
-	     isa([production, by, pancreas], [production]),
-	     fact(prep, [production, in, liver], in, [liver], location),
-	     isa([production, in, liver], [production]),
-	     isa([production, of, fat, and, by, pancreas, and, in, liver],
-		 [production, by, pancreas, and, in, liver]),
-	     isa([production, of, fat, and, by, pancreas, and, in, liver],
-		 [production, of, fat, and, by, pancreas]),
-	     isa([production, of, fat, and, by, pancreas, and, in, liver],
-		 [production, of, fat, and, in, liver]),
-	     isa([production, by, pancreas, and, in, liver],
-		 [production, by, pancreas]),
-	     isa([production, by, pancreas, and, in, liver],
-		 [production, in, liver]),
-	     isa([production, of, fat, and, by, pancreas],
-		 [production, by, pancreas]),
-	     isa([production, of, fat, and, by, pancreas],
-		 [production, of, fat]),
-	     isa([production, of, fat, and, in, liver],
-		 [production, in, liver]),
-	     isa([production, of, fat, and, in, liver],
-		 [production, of, fat])],
+		 [production, of, fat])] ,
 	have_same_elements(E,R).
 
 

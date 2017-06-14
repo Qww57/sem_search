@@ -46,6 +46,7 @@ lex(glucagon,        noun).
 lex(gluconeogenesis, noun).
 lex(glucose,	     noun).
 lex(glycogen,	     noun).
+lex(glycogenesis,    noun).
 lex(glycogenolysis,  noun).
 lex(hormone,         noun).
 lex(impact,          noun).
@@ -53,6 +54,7 @@ lex(insulin,         noun).
 lex(islet,           noun).
 lex(keeping,         noun).
 lex(limit,           noun).
+lex(lipogenesis,     noun).
 lex(liver,           noun).
 lex(manner,          noun).
 lex(mechanism,       noun).
@@ -113,6 +115,7 @@ nomi(taking,	  take).
 
 
 % Lexicon: adjectives:
+lex(absorbed,      adj, inter, predi).
 lex(anabolic,      adj, inter, predi).
 lex(extracellular, adj, inter, predi).
 lex(circulating,   adj, inter, predi).
