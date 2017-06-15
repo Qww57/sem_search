@@ -1,2 +1,4 @@
 *.pl~
-*.txt
+.txt
+*/old/*
+*/save/*
