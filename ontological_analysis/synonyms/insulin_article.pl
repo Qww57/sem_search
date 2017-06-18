@@ -72,7 +72,7 @@ sentence(160, [insulin,
 	      in, blood, into, large, molecule, in, cell]).
 
 sentence(170, [insulin,
-	      promote, at, low, insulin, concentration,
+	      promote, at, low, insulin, level,
 	      widespread, catabolism]).
 
 

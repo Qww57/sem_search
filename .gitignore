@@ -1,4 +1,7 @@
+.gitignore
 *.pl~
 .txt
 */old/*
 */save/*
+
+*/synonyms/*

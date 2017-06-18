@@ -13,6 +13,8 @@
 :- discontiguous lex/5.
 :- discontiguous nomi/2.
 
+:- [meaning].
+
 
 % Lexicon: prepositions
 lex(as,             preposition).
