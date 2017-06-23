@@ -118,8 +118,8 @@ decompose_vp(TNP1, R, TNP2, NewTNP2,[H1,H2|T]) :- R = verb(active(V), mod(M1)),
 	TrN = np(n(N),mod([pp(of,[OF],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
 	decompose_np1(TrN,NewTrN,T2), append(T1,T2,T),
 	reverse_np(NewTNP1, SNP1), reverse_np(NewTNP2, SNP2),
-	reverse_np(NewTrN,SrN),
-	H1 = fact(rc,SNP1,[V],SNP2,definition), H2 = attach(H1,SrN), !.
+	reverse_np(NewTrN,SrN), reverse_rterm(R,SR),
+	H1 = fact(rc,SNP1,SR,SNP2,definition), H2 = attach(H1,SrN), !.
 
 % VP - Passive without modifiers.
 decompose_vp(TNP1, R, TNP2, NewTNP2, [H|T]) :- R = verb(passive(V), mod([])),
@@ -141,8 +141,8 @@ decompose_vp(TNP1, R, TNP2, NewTNP2, [H1,H2|T]) :- R = verb(passive(V), mod(M1))
 	TrN = np(n(N),mod([pp(of,[OF],NewTNP2),pp(by,[agent],NewTNP1)|M2]),ext([])),
 	decompose_np(TrN,NewTrN,T2), append(T1,T2,T),
 	reverse_np(NewTNP1,SNP1), reverse_np(NewTNP2,SNP2),
-	reverse_np(NewTrN,SrN),
-	H1 = fact(rc,SNP1,[is,V,by],SNP2,definition), H2 = attach(H1,SrN), !.
+	reverse_np(NewTrN,SrN), reverse_rterm(R,SR),
+	H1 = fact(rc,SNP1,SR,SNP2,definition), H2 = attach(H1,SrN), !.
 
 
 % This step is important, because if the relation is not chosen
@@ -260,9 +260,9 @@ observation(TNP1,R,TNP2,[H1,H2|T]) :- % With prepositional terms.
 	nomi(N,V), nomi_adv(M1,M2),
 	choice_of_relation(N,TNP2,OF),
 	TrN = np(n(N), mod([pp(of,[OF],TNP2), pp(by,[agent],TNP1)|M2]), ext([])), !,
-	decompose_np1(TrN,NewTrN,T),
+	decompose_np1(TrN,NewTrN,T), reverse_rterm(R,SR), !,
 	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2), reverse_np(NewTrN,SrN),
-	H1 = fact(prop,SNP1,[V],SNP2, observation), H2 = attach(H1,SrN),!.
+	H1 = fact(prop,SNP1,SR, SNP2, observation), H2 = attach(H1,SrN), !.
 
 % Case: Passive verb with agent.
 observation(TNP1,verb(passive(V), mod([])), TNP2,[H]) :- % Without prepositional term.
@@ -273,9 +273,9 @@ observation(TNP1,R,TNP2,[H1,H2|T]) :- % With prepositional terms.
 	lex(V1,_,_,V,_), nomi(N,V1), nomi_adv(M1,M2),
 	choice_of_relation(N,TNP1,OF),
 	TrN = np(n(N), mod([pp(of,[OF],TNP1), pp(by,[agent],TNP2)|M2]), ext([])),
-	decompose_np(TrN,NewTrN,T),
+	decompose_np(TrN,NewTrN,T), reverse_rterm(R,SR),
 	reverse_np(TNP1,SNP1), reverse_np(TNP2,SNP2), reverse_np(NewTrN,SrN),
-	H1 = fact(prop,SNP1,[is,V,by],SNP2, observation), H2 = attach(H1,SrN), !.
+	H1 = fact(prop,SNP1,SR,SNP2, observation), H2 = attach(H1,SrN), !.
 
 % Default case.
 observation(_,_,_,[]) :- nl, write('Default observation.'), nl.
@@ -289,9 +289,9 @@ observation(TNP1,R,[H1,H2|T]) :- % With prepositional terms.
 	lex(V1,_,_,V,_), nomi(N,V1), nomi_adv(M1,M2),
 	choice_of_relation(N,TNP1,OF),
 	TrN = np(n(N), mod([pp(of,[OF],TNP1)|M2]), ext([])),
-	decompose_np(TrN,NewTrN,T),
+	decompose_np(TrN,NewTrN,T), reverse_rterm(R,SR),
 	reverse_np(TNP1, SNP1), reverse_np(NewTrN,SrN),
-	H1 = fact(prop,SNP1,[is,V,by],[entity], observation), H2 = attach(H1,SrN), !.
+	H1 = fact(prop,SNP1,SR,[entity], observation), H2 = attach(H1,SrN), !.
 
 % Default case.
 observation(_,_,[]) :- nl, write('Default observation.'), nl.
