@@ -110,7 +110,6 @@ is_pre(M) :- M = ger(_,_).
 is_post(M) :- M = rc(_,_).
 is_post(M) :- M = pp(_,_,_).
 
-% Actually check if the relation is [isa].
 reverse_rterm(verb(active(V),mod(M)), [V|T]) :- reverse_post(M,T), !.
 reverse_rterm(verb(passive(V),mod(M)), [is,V|T]) :- reverse_post(M,T0), !,
 	append(T0,[by],T).
