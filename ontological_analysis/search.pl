@@ -207,7 +207,6 @@ arc(KB,S1,S2,[I1,I2],_) :- % CN: default
 	I1 = [is,related,by,R,to,S2],
 	I2 = [which,is,related,by,R,to,S2].
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % TO DETAIL
@@ -287,11 +286,39 @@ arc(KB,S1,S2,[I1,I2],true) :- % PP: from - source: glucose from blood.
 	I2 = [which,is,the,source,of,S2].
 
 
-arc(KB,S1,S2,[I1,I2],true) :- % CN: default.
-	member(fact(cn,S2,none,S1,R),KB),
-	I1 = [is,related,by,R,to,S2],
-	I2 = [which,is,related,by,R,to,S2].
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+arc(KB,S1,S2,[I1,I2],true) :- % CN: agent
+	member(fact(cn,S2,none,S1,agent),KB),
+	I1 = [is,initiated,by,S1],
+	I2 = [which,is,initiated,by,S1].
+
+arc(KB,S1,S2,[I1,I2],true) :- % CN: bearer
+	member(fact(cn,S2,none,S1,bearer),KB),
+	I1 = [is,beared,by,S1],
+	I2 = [which,is,beared,by,S1].
+
+arc(KB,S1,S2,[I1,I2],true) :- % CN: agent
+	member(fact(cn,S2,none,S1,location),KB),
+	I1 = [is,the,location,of,S1],
+	I2 = [which,is,the,location,of,S1].
+
+arc(KB,S1,S2,[I1,I2],true) :- % CN: patient
+	member(fact(cn,S2,none,S1,patient),KB),
+	I1 = [affects,S1],
+	I2 = [which,affects,S1].
+
+arc(KB,S1,S2,[I1,I2],true) :- % CN: result
+	member(fact(cn,S2,none,S1,result),KB),
+	I1 = [creates,S1],
+	I2 = [which,creates,S1].
+
+arc(KB,S1,S2,[I1,I2],true) :- % CN: default
+	member(fact(cn,S2,none,S1,R),KB),
+	I1 = [is,related,by,R,to,S1],
+	I2 = [which,is,related,by,R,to,S1].
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 arc(KB,S1,S2,[I1,I2],true) :- % GER: default.
 	member(fact(ger,S2,none,S1,R),KB),

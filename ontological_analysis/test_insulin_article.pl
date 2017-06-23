@@ -71,9 +71,6 @@ list_butlast_prev([], [], _).
 list_butlast_prev([X1|Xs], [X0|Ys], X0) :-
    list_butlast_prev(Xs, Ys, X1).
 
-test_ranks :- read_from_text('inferences.txt',KB), allRank(KB,Z),
-	concepts_of_rank(Z,0,L), !, test_rank(KB,L).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %

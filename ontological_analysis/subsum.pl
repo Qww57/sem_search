@@ -4,7 +4,10 @@
 %
 %      Defining subsumption rules working over our facts definition.
 %
-%
+% The ranking algorithm has been implemented and is expected to work 
+% properly. Other parts of the algorithm should be considered as draft
+% for a future implementation.
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- ensure_loaded([grammar]).
@@ -49,6 +52,12 @@ count(KB,C,Z,N) :- concept(KB,C),
 	my_setof(fact(T,C,R,D,V),member(fact(T,C,R,D,V),KB),Z),
 	length(Z,N).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Helper functions.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		
 % concepts(+KB,-C) - Returns the list of all concepts defined in the KB.
 %
 concepts(KB,C) :- setof(X,concept(KB,X),C).
@@ -59,9 +68,6 @@ concept(KB,C)  :- member(isa(_,C),KB).
 
 % my_setof(Obj, Goal, List) - Returns the set of all
 my_setof(Obj, Goal, List) :- (\+ Goal -> List = [] ; setof(Obj,Goal,List)).
-
-test_rank_zero(_,[]).
-test_rank_zero(KB,[H|T]) :- count(KB,H,_,0), !, test_rank(KB,T), !.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
